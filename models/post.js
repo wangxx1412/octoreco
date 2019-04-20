@@ -12,11 +12,11 @@ const PostSchema = new Schema({
       type: Schema.Types.ObjectId, 
       ref: 'comment'
     }],
-    user: [{ 
+    user: { 
       type: Schema.Types.ObjectId, 
       ref:'user'
-    }],
-    createdAt: { type: Date, default: Date.now }
+    },
+    created: { type: Date, default: Date.now }
 });
 
 PostSchema.virtual('likeCount').get(function(){

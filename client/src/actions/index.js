@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SUBMIT_POST, FETCH_USER, FETCH_POST, FETCH_POSTS, LIKE_POST } from './types';
+import { SUBMIT_POST, FETCH_USER, FETCH_POST, FETCH_POSTS, LIKE_POST, ERROR } from './types';
 import { toast } from 'react-toastify';
 
   // ****** submit multi files into s3 
@@ -37,14 +37,15 @@ export const fetchPosts = () => async dispatch => {
   dispatch({ type: FETCH_POSTS, payload: res.data });
 };
 
-export const fetchPost = id => async dispatch => {
-  const res = await axios.get(`/api/posts/${id}`);
+export const fetchPost = postid => async dispatch => {
+  const res = await axios.get(`/api/posts/${postid}`)
 
   dispatch({ type: FETCH_POST, payload: res.data });
 };
 
-export const likePost = (postid, like)=>async dispatch=>{
-  const res = await axios.get(`/api/posts/${postid}/${like}`);
+// export const likePost = (postid, like)=>async dispatch=>{
+//   const res = await axios.get(`/api/posts/${postid}/${like}`);
 
-  dispatch({ type: LIKE_POST, payload: res.data });
-}
+//   dispatch({ type: LIKE_POST, payload: res.data });
+// }
+

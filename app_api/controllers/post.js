@@ -17,7 +17,7 @@ const postCreateOne = async (req, res) =>{
                     if(err) {
                         res.status(400).json(err);
                     } else {
-                        post.user.push(user);
+                        post.user = userid;
                         user.posts.push(post);
                         user.save((err, user) => {
                             if(err) {
@@ -74,43 +74,74 @@ const postDeleteOne = async (req, res) => {
 
 const postReadOne = async (req, res) => {
     const { postid } = req.params;
-    await Post.findById(postid).exec((err, post) => {
+    await Post.findById(postid)
+        .populate("user", "_id, username")
+        .exec((err, post) => {
         if(!post){
             return res.status(404).json({
                 message: "Post not found"
             });
         } else if (err) {
-            return res.status(404).json(err);
+            return res.status(404).json({
+                err
+            });
         }
         res.status(200).json(post);
     });
 };
 
 
-const postsRead = async (req, res) => {
-    const results = await Post.find();
+// const postsRead = async (req, res) => {
+//     const results = await Post.find();
 
-    const posts = await Promise.all(results.map(async result => {
-         const user =  await User.findById(result.user[0])
-                                .select("username");
-        return {
-            id: result._id,
-            content: result.content,
-            imageUrl: result.imageUrl,
-            comments: result.comments,
-            likes: result.likes,
-            userid: user.id,
-            username: user.username
-        }
-    }));
-    res.status(200).json(posts);
+//     const posts = await Promise.all(results.map(async result => {
+//          const user =  await User.findById(result.user)
+//                                 .select("username");
+//         return {
+//             id: result._id,
+//             content: result.content,
+//             imageUrl: result.imageUrl,
+//             comments: result.comments,
+//             likes: result.likes,
+//             userid: user.id,
+//             username: user.username
+//         }
+//     }));
+//     res.status(200).json(posts);
+// };
+
+//Todo: for grabing single post
+const getPosts = (req, res) => {
+    const posts = Post.find()
+        .populate("user", "_id username")
+        .select("_id content imageUrl comments likes created")
+        .sort({ created: -1 })
+        .then(posts => {
+            res.status(200).json(posts);
+        })
+        .catch(err => console.log(err));
 };
 
+const postsByUser = (req, res) => {
+    const {userid} = req.params;
+    Post.find({user: userid})
+        .populate("user", "_id username")
+        .sort({created: -1})
+        .exec((err, posts)=>{
+            if(err){
+                return res.status(400).json({
+                    error:err
+                })
+            } 
+            res.status(200).json(posts);
+        });
+}
 
 module.exports ={
     postCreateOne,
     postDeleteOne,
     postReadOne,
-    postsRead
+    getPosts,
+    postsByUser
 };
 

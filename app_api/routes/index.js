@@ -26,7 +26,6 @@ router.get('/upload', requireLogin, (req, res)=>{
     );
 });
 
-
 router.get('/', (req, res)=>{
     res.send('HEllooo API')
 });
@@ -34,11 +33,19 @@ router.get('/', (req, res)=>{
 router.get("/current_user", (req, res) => {
     res.send(req.user);
 });
+//Like & Unlike
+router
+    .route("/posts/like")
+    .put(requireLogin, ctrlLike.like)
+
+router
+    .route("/posts/unlike")
+    .put(requireLogin, ctrlLike.unlike)
 
 //Post
 router
     .route("/posts")
-    .get(ctrlPosts.postsRead)
+    .get(ctrlPosts.getPosts)
 
 router
     .route("/posts/new")
@@ -47,6 +54,10 @@ router
 router
     .route("/posts/:postid")
     .get(ctrlPosts.postReadOne)
+
+router
+    .route("/posts/user/:userid")
+    .get(ctrlPosts.postsByUser)
 
 router
     .route("/posts/:postid")
@@ -61,11 +72,6 @@ router
     .route("/posts/:postid/comments/:commentid")
     .get(requireLogin, ctrlComments.commentReadOne)
     .delete(requireLogin, ctrlComments.commentDeleteOne)
-
-//Like
-router
-    .route("/posts/:postid/:like")
-    .get(requireLogin, ctrlLike.likePost)
 
 //savePosts
 router
