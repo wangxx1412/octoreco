@@ -19,7 +19,7 @@ export default class Header extends React.Component {
   }
   render() {
     return (
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="white" expand="lg">
         <Container>
         <Navbar.Brand href="#home">Octoreco</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

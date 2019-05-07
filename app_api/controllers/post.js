@@ -40,34 +40,43 @@ const postCreateOne = async (req, res) =>{
 };
 
 const postDeleteOne = async (req, res) => {
-    const { postid } = req.params;
-    const userid  = req.user._id;
-    if (postid) {
-        await Post.findByIdAndRemove(postid).exec(async (err, post) => {
-            if (err) {
-                return res.status(404).json(err);
-            }
-            await User.findById(userid)
-            .select("posts")
-            .exec((err, user) => {
-                if(err) {
-                    res.status(400).json(err);
-                } else {
-                    user.posts.pull(post);
-                    user.save((err, user) => {
-                        if(err) { 
-                            res.status(400).json(err);
-                        }
-                        else{
-                            res.status(201).json({message: "Post removed"});
-                        }
-                    });
+    const postid = req.body.postId;
+    const loggedUserId  = req.user._id; // the current auth user
+    const userId = req.body.userId; // author of the post
+
+    //Check Auth User is the Poster, Id type are diffrent
+    if( loggedUserId == userId ){
+        if (postid) {
+            await Post.findByIdAndRemove(postid).exec(async (err, post) => {
+                if (err) {
+                    return res.status(404).json(err);
                 }
+                await User.findById(userId)
+                .select("posts")
+                .exec((err, user) => {
+                    if(err) {
+                        res.status(400).json(err);
+                    } else {
+                        user.posts.pull(post);
+                        user.save((err, user) => {
+                            if(err) { 
+                                res.status(400).json(err);
+                            }
+                            else{
+                                res.status(201).json({message: "Post removed"});
+                            }
+                        });
+                    }
+                });
             });
-        });
-    } else {
-        res.status(404).json ({
-            message: "No post found"
+        } else {
+            res.status(404).json ({
+                message: "No post found"
+            });
+        }
+    } else{
+        res.status(400).json({
+            message: "User Not Authorized"
         });
     }
 };
@@ -76,6 +85,8 @@ const postReadOne = async (req, res) => {
     const { postid } = req.params;
     await Post.findById(postid)
         .populate("user", "_id, username")
+        .populate("comments.postedBy", "_id username")
+        .populate("postedBy", "_id username")
         .exec((err, post) => {
         if(!post){
             return res.status(404).json({
@@ -90,32 +101,27 @@ const postReadOne = async (req, res) => {
     });
 };
 
+// with pagination
+const getPosts = async (req, res) => {
+    // get current page from req.query or use default value of 1
+    const currentPage = req.query.page || 1;
+    const perPage = 6;
+    let totalItems;
 
-// const postsRead = async (req, res) => {
-//     const results = await Post.find();
-
-//     const posts = await Promise.all(results.map(async result => {
-//          const user =  await User.findById(result.user)
-//                                 .select("username");
-//         return {
-//             id: result._id,
-//             content: result.content,
-//             imageUrl: result.imageUrl,
-//             comments: result.comments,
-//             likes: result.likes,
-//             userid: user.id,
-//             username: user.username
-//         }
-//     }));
-//     res.status(200).json(posts);
-// };
-
-//Todo: for grabing single post
-const getPosts = (req, res) => {
-    const posts = Post.find()
-        .populate("user", "_id username")
-        .select("_id content imageUrl comments likes created")
-        .sort({ created: -1 })
+    const posts = await Post.find()
+        // countDocuments() gives you total count of posts
+        .countDocuments()
+        .then(count => {
+            totalItems = count;
+            return Post.find()
+                .skip((currentPage - 1) * perPage)
+                .populate("comments", "content author")
+                .populate("comments.author", "_id username")
+                .populate("user", "_id username")
+                .select("_id imageUrl comments content created likes")
+                .limit(perPage)
+                .sort({ created: -1 });
+        })
         .then(posts => {
             res.status(200).json(posts);
         })

@@ -42,6 +42,15 @@ router
     .route("/posts/unlike")
     .put(requireLogin, ctrlLike.unlike)
 
+//savePosts
+router
+    .route("/posts/save")
+    .put(requireLogin, ctrlSave.save)
+
+router
+    .route("/posts/unsave")
+    .put(requireLogin, ctrlSave.unsave)
+
 //Post
 router
     .route("/posts")
@@ -60,22 +69,18 @@ router
     .get(ctrlPosts.postsByUser)
 
 router
-    .route("/posts/:postid")
+    .route("/posts/post/:postid")
     .delete(requireLogin, ctrlPosts.postDeleteOne)
 
 //Comment
 router
-    .route("/posts/:postid/comments/new")
-    .post(requireLogin, ctrlComments.commentCreateOne)
+    .route("/posts/:postid/comment")
+    .put(requireLogin, ctrlComments.comment)
 
 router
-    .route("/posts/:postid/comments/:commentid")
-    .get(requireLogin, ctrlComments.commentReadOne)
-    .delete(requireLogin, ctrlComments.commentDeleteOne)
+    .route("/posts/:postid/uncomment")
+    .put(requireLogin, ctrlComments.uncomment)
 
-//savePosts
-router
-    .route("/posts/:postid/save")
-    .get(requireLogin, ctrlSave.savePost)
+
 
 module.exports = router;

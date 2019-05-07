@@ -5,14 +5,10 @@ import {Container} from 'react-bootstrap'
 class Main extends React.Component {
   render(){
     return (
-      <div>
+      <div style={{backgroundColor:"#fafafa"}}>
         <Container>
-          <h1>
-          Main
-          </h1>
-          Here is Postlists and some info
-          <PostList auth={this.props.auth} />
-          </Container>
+          <PostList />
+        </Container>
       </div>
     );
   }

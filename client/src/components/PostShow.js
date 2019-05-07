@@ -1,47 +1,63 @@
 import React, { Component } from 'react';
 import * as actions from '../actions';
-import { like, unlike } from './posts/apiPostLike';
+import { like, unlike, save, unsave, comment, uncomment, remove } from './posts/apiPost';
 import { connect } from 'react-redux';
 import { Link, Redirect } from "react-router-dom";
-import { Container } from 'react-bootstrap'
-import { FaRegHeart, FaRegBookmark, FaHeart, FaBookmark } from "react-icons/fa";
+import { Button, Card, Container, Dropdown, Form, InputGroup } from 'react-bootstrap'
+import { IconContext } from "react-icons";
+import { FaRegHeart, FaRegBookmark, FaHeart, FaBookmark, FaTimes } from "react-icons/fa";
+import DropdownAngle from './posts/Dropdown'
 
 class PostShow extends Component {
     state = {
         post: "",
+        auth: "",
         redirectToHome: false,
         redirectToSignin: false,
         like: false,
         likes: 0,
-        comments: []
+        save: false,
+        comments: [],
+        newComment: ""
     };
 
     checkLike = likes => {
-        const userId = this.props.auth && this.props.auth._id;
+        const userId = this.state.auth && this.state.auth._id;
         let match = likes.indexOf(userId) !== -1;
         return match;
     };
 
-    componentDidMount = () => {
-        const postId = this.props.match.params.postid;
+    checkSave = post => {
+        const postId = post._id;
+        let match = this.state.auth.savedPosts.indexOf(postId) !== -1;
+        return match;
+    };
+
+    async componentDidMount(){
+        await this.props.fetchUser().then(()=>{
+            this.setState({
+                auth: this.props.auth
+            });
+        });
+        const postId = this.props.match.params.postid; 
         const {fetchPost} = this.props;
-        fetchPost(postId).then(()=> {
-                this.setState({
-                    post: this.props.post,
-                    likes: this.props.post.likes.length,
-                    like: this.checkLike(this.props.post.likes),
-                    comments: this.props.post.comments
-                });
-            
+        await fetchPost(postId).then(()=> {
+            this.setState({
+                post: this.props.post,
+                likes: this.props.post.likes.length,
+                like: this.checkLike(this.props.post.likes),
+                save: this.checkSave(this.props.post),
+                comments: this.props.post.comments
+            });
         });
     };
 
     likeToggle = () => {
-        if (!this.props.auth) {
+        if (!this.state.auth) {
             this.setState({ redirectToSignin: true });
             return false;
         }
-        const userId = this.props.auth._id;
+        const userId = this.state.auth._id;
         const postId = this.state.post._id;
 
         this.state.like ? 
@@ -59,121 +75,185 @@ class PostShow extends Component {
         });;
     };
 
-    // deletePost = () => {
-    //     const postId = this.props.match.params.postId;
-    //     remove(postId,).then(data => {
-    //         if (data.error) {
-    //             console.log(data.error);
-    //         } else {
-    //             this.setState({ redirectToHome: true });
-    //         }
-    //     });
-    // };
+    saveToggle = () => {
+        if (!this.state.auth) {
+            this.setState({ redirectToSignin: true });
+            return false;
+        }
+        const userId = this.state.auth._id;
+        const postId = this.state.post._id;
 
-    // deleteConfirmed = () => {
-    //     let answer = window.confirm(
-    //         "Are you sure you want to delete your post?"
-    //     );
-    //     if (answer) {
-    //         this.deletePost();
-    //     }
-    // };
+        this.state.save ? 
+        unsave(userId, postId).then(() => {
+                this.setState({
+                    save: !this.state.save
+                });
+        })
+        : save(userId, postId).then(() => {
+                this.setState({
+                    save: !this.state.save
+                });
+        });;
+    };
+
+    handleChange = (event) => {
+        this.setState({newComment: event.target.value});
+    }
+
+    handleSubmit = (event) => {
+        if (!this.state.auth) {
+            this.setState({ redirectToSignin: true });
+            return false;
+        }
+        event.preventDefault();
+        comment(this.state.auth._id, this.state.post._id, {comment: this.state.newComment}).then(
+            data => {
+                this.setState({
+                    comments: data.comments,
+                    newComment: ""
+                });
+            }
+        );
+    }
+
+    deletePost = () => {
+        const postId = this.state.post._id;
+        const userId = this.state.post.user._id;
+        remove(userId, postId).then(data => {
+                this.setState({ redirectToHome: true });
+        });
+    };
+
+    deletePostConfirmed = () => {
+        let answer = window.confirm(
+            "Are you sure you want to delete your post?"
+        );
+        if (answer) {
+            this.deletePost();
+        }
+    };
+    
+    deleteComment = comment => {
+        const userId = this.state.auth._id;
+        const postId = this.state.post._id;
+
+        uncomment(userId, postId, comment).then(data => {
+                this.setState({comments: data.comments})
+        });
+    };
+
+    deleteConfirmed = comment => {
+        let answer = window.confirm(
+            "Are you sure you want to delete your comment?"
+        );
+        if (answer) {
+            this.deleteComment(comment);
+        }
+    };
 
     renderPost = post => {
-        const posterId = post.user ? `/user/${post.user._id}` : "";
-        const posterName = post.user ? post.user.username : " Unknown";
-
-        const { like, likes } = this.state;
+        const { auth, like, likes, save } = this.state;
 
         return (
-            <div className="card-body">
-                {/* <img
-                    src={`${process.env.REACT_APP_API_URL}/post/photo/${
-                        post._id
-                    }`}
-                    alt={post.title}
-                    onError={i => (i.target.src = `${DefaultPost}`)}
-                    className="img-thunbnail mb-3"
-                    style={{
-                        height: "300px",
-                        width: "100%",
-                        objectFit: "cover"
-                    }}
-                /> */}
-
-                {like ? (
-                    <h3 onClick={this.likeToggle}>
-                    <FaHeart />
-                        {" "}
-                        {likes} Like
-                    </h3>
-                ) : (
-                    <h3 onClick={this.likeToggle}>
-                    <FaRegHeart />
-                        {" "}
-                        {likes} Like
-                    </h3>
-                )}
-
-                <p>{post.content}</p>
-                <br />
-                <p>
-                    Posted by <Link to={`${posterId}`}>{posterName} </Link>
-                    on {new Date(post.created).toDateString()}
-                </p>
-                <div>
-                    <Link
-                        to={`/`}
-                        className="btn btn-raised btn-primary btn-sm mr-5"
-                    >
-                        Back to posts
-                    </Link>
-
-                    {this.props.auth &&
-                        this.props.auth._id === post.user._id && (
+            <Card style={{maxWidth:"40rem"}}>
+            <Card.Header style={{backgroundColor: "white"}} >
+                <Link to={`/user/${post.user._id}`} style={{color:"inherit", textDecoration:"none"}}></Link> <b> {post.user.username}</b>
+                <span style={{position:"absolute", right: "30px", zIndex:"2" }} >
+                <DropdownAngle>
+                    <Dropdown.Item disabled>Follow</Dropdown.Item>
+                    <Dropdown.Item href={`/posts`}>
+                        Return to Posts
+                    </Dropdown.Item>
+                    {auth &&
+                        auth._id === post.user._id && (
                             <>
-                                <Link
-                                    to={`/post/edit/${post._id}`}
-                                    className="btn btn-raised btn-warning btn-sm mr-5"
-                                >
-                                    Update Post
-                                </Link>
-                                <button
-                                    //onClick={}
-                                    className="btn btn-raised btn-danger"
-                                >
-                                    Delete Post
-                                </button>
+                                <Dropdown.Item style={{color:"red"}} onClick={this.deletePostConfirmed}>Delete this post</Dropdown.Item>
                             </>
                         )}
+                </DropdownAngle>
+                </span>
+            </Card.Header>
+                <Card.Body>
+                <Card.Text style={{ position: "relative"}}>
+                {like ? (
+                    <span style={{ position: "absolute" }} onClick={this.likeToggle}>
+                    <IconContext.Provider value={{ color: "#E1306C", size:"1.5em", className: "global-class-name" }}>
+                    <FaHeart />
+                    </IconContext.Provider>
+                        {" "}
+                        {likes} Like
+                    </span>
+                ) : (
+                    <span style={{ position: "absolute" }} onClick={this.likeToggle}>
+                    <IconContext.Provider value={{ size:"1.5em", className: "global-class-name" }}>
+                    <FaRegHeart />
+                    </IconContext.Provider>
+                        {" "}
+                        {likes} Like
+                    </span>
+                )}
 
-                    {/* <div>
-                        {isAuthenticated().user &&
-                            isAuthenticated().user.role === "admin" && (
-                                <div class="card mt-5">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Admin</h5>
-                                        <p className="mb-2 text-danger">
-                                            Edit/Delete as an Admin
-                                        </p>
-                                        <Link
-                                            to={`/post/edit/${post._id}`}
-                                            className="btn btn-raised btn-warning btn-sm mr-5"
-                                        >
-                                            Update Post
-                                        </Link>
-                                        <button
-                                            onClick={this.deleteConfirmed}
-                                            className="btn btn-raised btn-danger"
-                                        >
-                                            Delete Post
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                    </div> */}
+                {save ? (
+                    <span style={{ position: "absolute", right:"10px" }} onClick={this.saveToggle}>
+                    <IconContext.Provider value={{ size:"1.5em", className: "global-class-name" }}>
+                    <FaBookmark />
+                    </IconContext.Provider>
+                    </span>
+                ) : (
+                    <span style={{ position: "absolute", right: "10px" }} onClick={this.saveToggle}>
+                    <IconContext.Provider value={{ size:"1.5em", className: "global-class-name" }}>
+                    <FaRegBookmark />
+                    </IconContext.Provider>
+                    </span>
+                )}      
+                </Card.Text>
+                <div style={{marginTop: "40px"}}><b>{post.user.username}</b> {post.content}</div>
+                <Card.Text>
+                    <small className="text-muted" style={{ marginTop:"10px"}}>
+                    on {new Date(post.created).toDateString()}
+                    </small>
+                </Card.Text>
+                
+                <Form onSubmit={this.handleSubmit} style={{paddingBottom:"12px", borderBottom:"1px solid #d9dde2"}}>
+                    <Form.Label><b>Comments</b></Form.Label>
+                    <InputGroup>
+                    <Form.Control 
+                    style= {{boxShadow: 'none'}}
+                    size="sm" 
+                    type="text" 
+                    value={this.state.newComment} 
+                    onChange={this.handleChange}
+                    placeholder="Comments here..." />
+                    <InputGroup.Append>
+                    <Button size="sm" type="submit" style={{zIndex:"1"}}>
+                    Post
+                    </Button>
+                    </InputGroup.Append>
+                    </InputGroup>
+                </Form>
+                <div style={{marginTop:"12px"}}>
+                {this.state.comments.map(comment=>{
+                    return <div key={comment._id} 
+                    style={{fontSize:"12px", paddingBottom:"12px", borderBottom:"1px solid #d9dde2", marginBottom:"1rem"}} >
+                            <b><Link to={`/user/${comment.postedBy._id}`} style={{color:"inherit", textDecoration:"none"}}>{comment.postedBy.username}</Link></b> {comment.comment}
+                                <div>
+                                <small className="text-muted" style={{ marginTop:"10px"}}>
+                                on {new Date(comment.created).toDateString()}
+                                </small>
+                                {auth && auth._id === comment.postedBy._id && (
+                                        <>
+                                            <span onClick={() =>this.deleteConfirmed(comment)}
+                                            className="text-danger float-right mr-1">
+                                                <FaTimes />
+                                            </span>
+                                        </>
+                                    )}    
+                                </div>   
+                            </div>
+                })}
                 </div>
-            </div>
+                </Card.Body>
+                </Card>
         );
     };
 
@@ -187,16 +267,17 @@ class PostShow extends Component {
         }
 
         return (
-            <div>
+            <div style={{backgroundColor: "#fafafa"}} >
                 <Container>
-                <h2>{post.title}</h2>
-
                 {!post ? (
-                    <div>
+                    <div style={{marginTop:"100px", textAlign:"center"}}>
                         <h2>Loading...</h2>
+                        <h4>If no response, please refresh the page</h4>
                     </div>
                 ) : (
-                    this.renderPost(post)
+                    <div style={{paddingTop: "40px"}}>
+                    {this.renderPost(post)}
+                    </div>
                 )}
                 </Container>
             </div>
@@ -204,6 +285,9 @@ class PostShow extends Component {
     }
 }
 function mapStateToProps(state){
-    return { post:state.posts.post};
+    return { 
+        post: state.posts.post,
+        auth: state.auth
+    };
 }
 export default connect(mapStateToProps, actions)(PostShow);

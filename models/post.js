@@ -8,14 +8,17 @@ const PostSchema = new Schema({
       type:Schema.Types.ObjectId,
       ref:'user'
     }],
-    comments: [{
-      type: Schema.Types.ObjectId, 
-      ref: 'comment'
-    }],
     user: { 
       type: Schema.Types.ObjectId, 
       ref:'user'
     },
+    comments: [
+      {
+          comment: String,
+          created: { type: Date, default: Date.now },
+          postedBy: { type: Schema.Types.ObjectId, ref: "user" }
+      }
+    ],
     created: { type: Date, default: Date.now }
 });
 

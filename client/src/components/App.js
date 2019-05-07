@@ -22,13 +22,8 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path="/posts/new" component={ PostNew } />
-          <Route 
-          exact path="/posts/:postid" 
-          render={(props)=> <PostShow {...props} auth={this.props.auth} />} />
-          <Route 
-          path="/posts"  
-          render={(props)=> <Main {...props} auth={this.props.auth}/>}
-          />
+          <Route exact path="/posts/:postid" component={ PostShow } />
+          <Route path="/posts" component={ Main } />
           <Route 
           path="/" 
           render={(props)=><Landing {...props} auth={this.props.auth}/>}
