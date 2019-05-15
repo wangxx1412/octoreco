@@ -7,7 +7,6 @@ import Landing from './Landing';
 import PostNew from './PostNew';
 import PostShow from './PostShow';
 import Main from './Main';
-import Header from './Header';
 
 class App extends Component {
   async componentDidMount() {
@@ -19,7 +18,6 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <Header />
         <Switch>
           <Route exact path="/posts/new" component={ PostNew } />
           <Route exact path="/posts/:postid" component={ PostShow } />

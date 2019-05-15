@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from './Header';
 import PostForm from './posts/PostForm';
 import PostImg from './posts/PostImg';
 
@@ -22,6 +23,7 @@ class PostNew extends Component {
     render(){
         return(
             <div>
+                <Header />
                 <h1>
                 Create a Post!
                 </h1>

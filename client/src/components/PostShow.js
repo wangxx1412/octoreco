@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from './Header';
 import * as actions from '../actions';
 import { like, unlike, save, unsave, comment, uncomment, remove } from './posts/apiPost';
 import { connect } from 'react-redux';
@@ -267,6 +268,8 @@ class PostShow extends Component {
         }
 
         return (
+            <div>
+            <Header />
             <div style={{backgroundColor: "#fafafa"}} >
                 <Container>
                 {!post ? (
@@ -280,6 +283,7 @@ class PostShow extends Component {
                     </div>
                 )}
                 </Container>
+            </div>
             </div>
         );
     }
