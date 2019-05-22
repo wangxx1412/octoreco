@@ -19,7 +19,7 @@ router.get(
     "/auth/google/callback",
     passport.authenticate("google"),
     (req,res) => {
-      res.redirect('/');
+      res.redirect('/posts');
     }
 );
 
@@ -35,7 +35,7 @@ router.get(
     "/auth/facebook/callback",
     passport.authenticate("facebook", { failureRedirect: '/' }),
     (req,res) => {
-      res.redirect('/');
+      res.redirect('/posts');
     }
 );
 

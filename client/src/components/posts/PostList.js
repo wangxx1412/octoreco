@@ -39,12 +39,19 @@ class PostList extends Component {
             })
         });
         await this.props.fetchPosts().then(()=>{
+            if(!this.state.auth){
+                this.setState({
+                    posts: this.props.posts,
+                    like: this.props.posts.map(post=>this.checkLike(post.likes)),
+                    likes: this.props.posts.map(post=>post.likes.length)
+                })
+            } else{
             this.setState({
                 posts: this.props.posts,
                 like: this.props.posts.map(post=>this.checkLike(post.likes)),
                 likes: this.props.posts.map(post=>post.likes.length),
                 save: this.props.posts.map(post=>this.checkSave(post))
-            })
+            })}
         }).then(()=>{
             this.setState({
                 loaded:true
@@ -168,10 +175,10 @@ class PostList extends Component {
     }
 
     render() {      
-        const { loaded, posts, auth } = this.state;
+        const { loaded, posts} = this.state;
         return (
           <div style={{paddingTop: "40px"}}>
-            {loaded && auth?
+            {loaded ?
                 this.renderPosts(posts)
                 :null}
         </div>

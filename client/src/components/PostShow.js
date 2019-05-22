@@ -33,7 +33,7 @@ class PostShow extends Component {
         let match = this.state.auth.savedPosts.indexOf(postId) !== -1;
         return match;
     };
-
+    
     async componentDidMount(){
         await this.props.fetchUser().then(()=>{
             this.setState({
@@ -43,13 +43,22 @@ class PostShow extends Component {
         const postId = this.props.match.params.postid; 
         const {fetchPost} = this.props;
         await fetchPost(postId).then(()=> {
-            this.setState({
-                post: this.props.post,
-                likes: this.props.post.likes.length,
-                like: this.checkLike(this.props.post.likes),
-                save: this.checkSave(this.props.post),
-                comments: this.props.post.comments
-            });
+            if(!this.state.auth){
+                this.setState({
+                    post: this.props.post,
+                    likes: this.props.post.likes.length,
+                    like: this.checkLike(this.props.post.likes),
+                    comments: this.props.post.comments
+                });
+            } else {
+                this.setState({
+                    post: this.props.post,
+                    likes: this.props.post.likes.length,
+                    like: this.checkLike(this.props.post.likes),
+                    save: this.checkSave(this.props.post),
+                    comments: this.props.post.comments
+                });
+        }
         });
     };
 
@@ -226,7 +235,7 @@ class PostShow extends Component {
                     onChange={this.handleChange}
                     placeholder="Comments here..." />
                     <InputGroup.Append>
-                    <Button size="sm" type="submit" style={{zIndex:"1"}}>
+                    <Button className="bg-purple-dark hover:bg-purple border-purple-dark" size="sm" type="submit" style={{zIndex:"1", boxShadow: 'none'}}>
                     Post
                     </Button>
                     </InputGroup.Append>
@@ -234,23 +243,35 @@ class PostShow extends Component {
                 </Form>
                 <div style={{marginTop:"12px"}}>
                 {this.state.comments.map(comment=>{
-                    return <div key={comment._id} 
-                    style={{fontSize:"12px", paddingBottom:"12px", borderBottom:"1px solid #d9dde2", marginBottom:"1rem"}} >
-                            <b><Link to={`/user/${comment.postedBy._id}`} style={{color:"inherit", textDecoration:"none"}}>{comment.postedBy.username}</Link></b> {comment.comment}
-                                <div>
-                                <small className="text-muted" style={{ marginTop:"10px"}}>
-                                on {new Date(comment.created).toDateString()}
-                                </small>
-                                {auth && auth._id === comment.postedBy._id && (
-                                        <>
-                                            <span onClick={() =>this.deleteConfirmed(comment)}
-                                            className="text-danger float-right mr-1">
-                                                <FaTimes />
-                                            </span>
-                                        </>
-                                    )}    
-                                </div>   
-                            </div>
+                    if(comment.postedBy == null){
+                        return <div key={comment._id} 
+                        style={{fontSize:"12px", paddingBottom:"12px", borderBottom:"1px solid #d9dde2", marginBottom:"1rem"}} >
+                                <i><span className="font-bold text-grey">User Not Exist</span></i> {comment.comment}
+                                    <div>
+                                    <small className="text-muted" style={{ marginTop:"10px"}}>
+                                    on {new Date(comment.created).toDateString()}
+                                    </small> 
+                                    </div>   
+                                </div>
+                    } else {
+                        return <div key={comment._id} 
+                        style={{fontSize:"12px", paddingBottom:"12px", borderBottom:"1px solid #d9dde2", marginBottom:"1rem"}} >
+                                <b><Link to={`/user/${comment.postedBy._id}`} style={{color:"inherit", textDecoration:"none"}}>{comment.postedBy.username}</Link></b> {comment.comment}
+                                    <div>
+                                    <small className="text-muted" style={{ marginTop:"10px"}}>
+                                    on {new Date(comment.created).toDateString()}
+                                    </small>
+                                    {auth && auth._id === comment.postedBy._id && (
+                                            <>
+                                                <span onClick={() =>this.deleteConfirmed(comment)}
+                                                className="text-danger float-right mr-1">
+                                                    <FaTimes />
+                                                </span>
+                                            </>
+                                        )}    
+                                    </div>   
+                                </div>
+                    }
                 })}
                 </div>
                 </Card.Body>

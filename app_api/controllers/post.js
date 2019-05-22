@@ -1,6 +1,7 @@
 const Post = require('../../models/post');
 const User = require('../../models/user');
 
+//***********Create a post***********/
 const postCreateOne = async (req, res) =>{
     const { content, imageUrl } = req.body;
     const  userid = req.user._id;
@@ -39,6 +40,7 @@ const postCreateOne = async (req, res) =>{
     );
 };
 
+//**********Delet one post by id***********/
 const postDeleteOne = async (req, res) => {
     const postid = req.body.postId;
     const loggedUserId  = req.user._id; // the current auth user
@@ -81,6 +83,7 @@ const postDeleteOne = async (req, res) => {
     }
 };
 
+//********Get One post by id***********/
 const postReadOne = async (req, res) => {
     const { postid } = req.params;
     await Post.findById(postid)
@@ -93,15 +96,13 @@ const postReadOne = async (req, res) => {
                 message: "Post not found"
             });
         } else if (err) {
-            return res.status(404).json({
-                err
-            });
+            return res.status(404).json({ error: err });
         }
         res.status(200).json(post);
     });
 };
 
-// with pagination
+//*********Get all posts with pagination***********/
 const getPosts = async (req, res) => {
     // get current page from req.query or use default value of 1
     const currentPage = req.query.page || 1;
@@ -115,8 +116,8 @@ const getPosts = async (req, res) => {
             totalItems = count;
             return Post.find()
                 .skip((currentPage - 1) * perPage)
-                .populate("comments", "content author")
-                .populate("comments.author", "_id username")
+                // .populate("comments", "content author")
+                // .populate("comments.author", "_id username")
                 .populate("user", "_id username")
                 .select("_id imageUrl comments content created likes")
                 .limit(perPage)
@@ -128,6 +129,7 @@ const getPosts = async (req, res) => {
         .catch(err => console.log(err));
 };
 
+//******** Get all posts from a certain user***********/
 const postsByUser = (req, res) => {
     const {userid} = req.params;
     Post.find({user: userid})

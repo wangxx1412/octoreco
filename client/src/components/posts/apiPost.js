@@ -102,3 +102,33 @@ export const uncomment = (userId, postId, comment) => {
         })
         .catch(err => console.log(err));
 };
+
+export const changeUserName = (userId, newUserName) => {
+    return fetch(`http://localhost:3000/api/${userId}/changeusername`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId, newUserName })
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const deleteUser = (userId) => {
+    return fetch(`http://localhost:3000/api/${userId}/deleteuser`, {
+        method: "Delete",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId })
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

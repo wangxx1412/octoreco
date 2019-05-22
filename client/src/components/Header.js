@@ -1,45 +1,73 @@
 import React from 'react';
-import {
-    Container, Navbar, Nav, NavDropdown
-  } from 'react-bootstrap';
+import {Person, Setting} from '../assets/svg'
+import { connect } from 'react-redux';
+import { Link, Redirect } from "react-router-dom";
+import * as actions from '../actions';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      user:"",
+      loaded: false
     };
   }
+
+  async componentDidMount(){
+    await this.props.fetchUser().then(()=>{
+      this.setState({
+          user: this.props.user
+      })
+    }).then(()=>{
+      this.setState({loaded:true})
+    })
+  };
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
   render() {
+    const {user, loaded} = this.state;
     return (
-        <Navbar bg="white" expand="lg">
-        <Container>
-        <Navbar.Brand href="#home">Octoreco</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
-            </Nav>
-            <Nav.Link href="#person">Person</Nav.Link>
-        </Navbar.Collapse>
-        </Container>
-        </Navbar>
+      <nav className="flex items-center justify-between flex-wrap bg-purple-dark p-6">
+        <div className="flex items-center text-grey-lightest lg:ml-32">
+          <span className="font-bold text-xl">
+          {user?<Link to="/posts" style={{color:"inherit", textDecoration:"none"}}>Octoreco</Link>:
+          <Link to="/" style={{color:"inherit", textDecoration:"none"}}>Octoreco</Link>}
+          </span>
+        </div>
+        {loaded?
+        <div className="flex">
+          {user ?
+          <div className="flex">
+            <div className="flex items-center mr-4"><a href={`http://localhost:3000/user/${user._id}` }style={{color:"inherit", textDecoration:"none"}}><Person /></a></div>
+            <div className="flex items-center inline-block lg:mr-32">
+              <a href={`http://localhost:3000/settings/${user._id}`} style={{color:"inherit", textDecoration:"none"}}>
+              <Setting />
+              </a>
+            </div>
+          </div>
+          : 
+          <div className="inline-block lg:mr-32 font-bold text-grey-lightest">
+          <a href="http://localhost:3000" style={{color:"inherit", textDecoration:"none"}}>Login Here</a>
+          </div>}
+        </div>
+       : null}
+      </nav>
     );
   }
 }
 
+function mapStateToProps(state){
+  return { 
+      user: state.auth
+  };
+}
+
+export default connect(mapStateToProps, actions)(Header);

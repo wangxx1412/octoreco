@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {GooglePlus, Facebook, Home, Github, Mail} from '../assets/svg'
+import {GooglePlus, Facebook, Github, Magnifier, Mail} from '../assets/svg'
 
 class Landing extends Component {
     render(){
@@ -7,10 +7,12 @@ class Landing extends Component {
           <div>
           <div className="lg:invisible absolute h-110screen lg:h-screen w-screen z-0" style={{backgroundColor:'#e9e9e9'}}></div>
           <div className="lg:flex relative z-10">
-            <div className="flex items-start absolute z-20 w-full h-full lg:w-3/5 pt-3">
+            <div className="flex items-start absolute z-20 w-full lg:w-3/5 pt-3">
               <div className="absolute lg:pr-10 xxs:pr-2" style={{right:'0'}}>
               <a href="https://github.com/wangxx1412/octoreco"><Github /></a>
-              <a href="mailto:wangxiaoxuan4869@gmail.com"><Mail /></a> 
+              <a href="mailto:wangxiaoxuan4869@gmail.com">
+              <svg className="w-6 h-6 fill-grey-lightest" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"	viewBox="0 0 382.117 382.117" >
+              <Mail /></svg></a> 
               </div>
             </div>
             <div className="lg:flex lg:items-center bg-purple-dark relative lg:w-3/5 h-50screen lg:h-screen z-10">
@@ -18,12 +20,10 @@ class Landing extends Component {
                   <div className="font-bold text-4xl xs:text-5xl md:text-6xl text-grey-lightest">
                     Welcome to OctoReco!
                   </div>
-                  <div className="text-grey-lightest">Share your moment!</div> 
-                  <div className="text-xl lg:text-2xl font-bold text-grey-lightest underline xs:pt-4">
-                  <a href="http://localhost:3000/posts" style={{color:"inherit", textDecoration:"none"}}>
-                    View as Guest
-                  </a>
-                  </div>
+                  <div className="text-grey-lightest">Share your moment !</div> 
+                  <div className="text-xl lg:text-2xl font-bold text-grey-lightest underline xs:pt-4"> 
+                    <a href="http://localhost:3000/posts" style={{color:"inherit", textDecoration:"none"}}><Magnifier />View as Guest</a>
+                  </div>             
               </div>
             </div>
             <div className="lg:flex relative w-full lg:w-2/5">
@@ -54,7 +54,7 @@ class Landing extends Component {
             </div>
           </div>
           <div className="lg:invisible flex items-end lg:flex-none justify-center absolute w-full lg:w-0 lg:h-0">
-          <p className="lg:-mt-6 text-xs text-grey">Icons made by Freepik/Pixel Perfect from www.flaticon.com</p>
+          <p className="lg:-mt-6 text-xs text-grey">Icons made by Freepik/Pixel Perfect/SimpleIcon from www.flaticon.com</p>
           </div>
           </div>
           );

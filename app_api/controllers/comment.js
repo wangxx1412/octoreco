@@ -1,5 +1,4 @@
 const Post = require('../../models/post');
-const User = require('../../models/user');
 
 const comment = (req, res) => {
     let comment = req.body.comment;

@@ -4,6 +4,7 @@ const ctrlPosts = require('../controllers/post');
 const ctrlComments = require('../controllers/comment');
 const ctrlLike = require('../controllers/like');
 const ctrlSave = require('../controllers/savePost');
+const ctrlUser = require('../controllers/user');
 
 const AWS = require('aws-sdk');
 const uuid = require('uuid/v1');
@@ -33,7 +34,7 @@ router.get('/', (req, res)=>{
 router.get("/current_user", (req, res) => {
     res.send(req.user);
 });
-//Like & Unlike
+//Like & Unlike Post
 router
     .route("/posts/like")
     .put(requireLogin, ctrlLike.like)
@@ -81,6 +82,13 @@ router
     .route("/posts/:postid/uncomment")
     .put(requireLogin, ctrlComments.uncomment)
 
-
-
+//Update UserName
+router 
+    .route("/:userid/changeusername")
+    .put(requireLogin, ctrlUser.changeUserName)
+//Delete User
+router
+    .route("/:userid/deleteuser")
+    .delete(requireLogin, ctrlUser.deleteUser)
+    
 module.exports = router;
