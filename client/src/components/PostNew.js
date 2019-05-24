@@ -24,10 +24,9 @@ class PostNew extends Component {
         return(
             <div>
                 <Header />
-                <h1>
-                Create a Post!
-                </h1>
+                <div className="container">
                 {this.renderContent()}
+                </div>
             </div>
         );
     }

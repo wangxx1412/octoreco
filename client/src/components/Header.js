@@ -1,7 +1,7 @@
 import React from 'react';
 import {Person, Setting} from '../assets/svg'
 import { connect } from 'react-redux';
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as actions from '../actions';
 
 class Header extends React.Component {

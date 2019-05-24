@@ -46,3 +46,10 @@ export const fetchPost = postid => async dispatch => {
   dispatch({ type: FETCH_POST, payload: res.data });
 };
 
+//Fetch Posts from one User
+export const fetchUserPosts = userid => async dispatch =>{
+  const res =  await axios.get(`/api/posts/user/${userid}`)
+
+  dispatch({ type: FETCH_POSTS, payload: res.data });
+};
+

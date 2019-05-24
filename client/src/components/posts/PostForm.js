@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
 class PostForm extends React.Component {
-    
     render(){
         const { handleSubmit, showConfirm } = this.props;
       return (
@@ -13,15 +12,20 @@ class PostForm extends React.Component {
           {showConfirm?
         null :
         <div>
-        <label>Say something for your post</label>  
-        <Field 
-        name="content" 
-        component="textarea" 
-        type='text' />
-        <button>
-        <Link to='/posts'>Back</Link>
-        </button>
-        <button type='submit'>Next</button>
+        <hr className="w-full"/>
+          <Field 
+          className="bg-purple-lightest appearance-none border-2 rounded w-full lg:w-3/5 mt-2 py-2 px-4 text-grey-dark leading-tight focus:outline-none focus:bg-white focus:border-purple-dark"
+          name="content" 
+          component="textarea" 
+          type='text' 
+          placeholder="Say something for your post..."
+          />
+          <div className="w-full">
+          <button className="shadow bg-red hover:bg-red-light focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mt-2">
+          <Link to='/posts' style={{color:"inherit", textDecoration:"none"}}>Back</Link>
+          </button>
+          <button className="shadow bg-purple hover:bg-purple-light focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mt-2 ml-2" type='submit'>Next</button>
+          </div>
         </div>
         }
         </form>

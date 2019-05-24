@@ -76,21 +76,21 @@ class Setting extends Component {
             <div>
                 <Header />
                 {loaded? 
-                <div className="flex items-center justify-center container h-full w-full mt-20 border-purple-dark border-2 rounded shadow">
+                <div className="flex items-center justify-center container h-full w-full mt-20 bg-purple-lightest border-purple-dark border-2 rounded shadow">
                     <div className="w-full rounded overflow-hidden">
-                        <div className="flex my-3 border-purple-lightest border-b-2">
+                        <div className="flex my-3 border-purple-dark border-b-2">
                             <div className="flex w-1/4 h-auto font-bold text-purple mx-2 my-2 lg:mx-3 lg:my-3">
                             Account Info
                             </div>
                             <div className="text-purple w-3/4 h-auto mx-2 my-2 lg:mx-3 lg:my-3">
-                                <div className="font-display  mb-2">{`Login Method: ${user.method}`}</div>
-                                <div className="font-display  mb-2">Username: <b>{user.username}</b></div>
-                                <div className="font-display  mb-2">Email: {this.getEmail(user)}</div>
-                                <div className="font-display  mb-2">You have <b>{user.posts.length}</b> posts</div>
-                                <div className="font-display  mb-2">You have saved <b>{user.savedPosts.length}</b> posts</div>
+                                <div className="font-display mb-2">{`Login Method: ${user.method}`}</div>
+                                <div className="font-display mb-2">Username: <b>{user.username}</b></div>
+                                <div className="font-display mb-2">Email: {this.getEmail(user)}</div>
+                                <div className="font-display mb-2">You have <b>{user.posts.length}</b> posts</div>
+                                <div className="font-display mb-2">You have saved <b>{user.savedPosts.length}</b> posts</div>
                             </div>
                         </div>
-                        <div className="flex mb-3 border-purple-lightest border-b-2">
+                        <div className="flex mb-3 border-purple-dark border-b-2">
                             <div className="flex w-1/4  h-12 font-bold text-purple mx-2 my-2 lg:mx-3 lg:my-3">
                             UserName
                             </div>
@@ -102,29 +102,29 @@ class Setting extends Component {
                                         type="text"
                                         value={this.state.newusername} 
                                         onChange={this.handleChange}/>
-                                <button className="flex mb-3 ml-3 px-3 py-2 rounded font-semibold text-purple hover:text-white hover:bg-purple border border-purple hover:border-transparent focus:outline-none" type="submit">Submit</button>
+                                <button className="flex mb-3 ml-3 px-3 py-2 rounded font-semibold text-purple hover:text-white hover:bg-purple focus:outline-none" style={{borderColor:"#9F7AEA", borderWidth:"2px"}} type="submit">Submit</button>
                                 </div>
                                 <p className="text-grey-dark font-sans text-xs italic">Make it as long and as crazy as you'd like</p>
                             </form>
                             </div>
                         </div>
-                        <div className="flex mb-3 border-purple-lightest border-b-2">
-                            <div className="flex w-1/4 h-auto font-bold text-red-dark mx-2 my-2 lg:mx-3 lg:my-3">
+                        <div className="flex mb-3 border-purple border-b-1">
+                            <div className="flex w-1/4 h-auto font-bold text-red-dark hover:text-red-light mx-2 my-2 lg:mx-3 lg:my-3">
                                 <a className="mb-2" href={`http://localhost:3000/api/logout`} style={{color:"inherit", textDecoration:"none"}}>Log Out</a>
                             </div>
                             <div className="font-display text-purple w-3/4 h-auto mx-2 my-2 lg:mx-3 lg:my-3">Click to Sign Out from Octoreco</div>
                         </div>
-                        <div className="flex mb-3 border-purple-lightest border-b-2">
+                        <div className="flex mb-3 border-purple border-b-1">
                             <div className="flex w-1/4 h-auto mx-2 my-2 lg:mx-3 lg:my-3">
-                                <button className="mb-2 font-bold text-red-dark" onClick={() =>this.deleteConfirmed(user)}>Delete your account</button>
+                                <button className="mb-2 font-bold text-red-dark text-base hover:text-red-light" onClick={() =>this.deleteConfirmed(user)}>Delete your account</button>
                             </div>
                             <div className="font-display font-bold text-red-dark w-3/4 h-auto mx-2 my-2 lg:mx-3 lg:my-3">**Warning**  Your account can not be recovered !</div>
                         </div>
-                        <div className="flex mb-3 border-purple-lightest border-b-2">
+                        <div className="flex mb-3">
                             <div className="flex w-1/4 h-12 font-bold text-grey mx-2 my-2 lg:mx-3 lg:my-3">
                             About Me
                             </div>
-                            <div className="w-3/4  h-auto mx-2 my-2 lg:mx-3 lg:my-3">
+                            <div className="w-3/4 h-auto mx-2 my-2 lg:mx-3 lg:my-3">
                                 <div className="font font-display text-purple mb-2">View my Webpage</div>
                                 <div className="flex items-center font font-display text-purple mb-2">
                                 <div className="flex">Contact Me: </div>

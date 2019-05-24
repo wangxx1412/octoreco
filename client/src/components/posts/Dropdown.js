@@ -17,25 +17,24 @@ class CustomToggle extends React.Component {
   
     render() {
       return (
-        <a href="" onClick={this.handleClick}>
+        <div onClick={this.handleClick}>
           {this.props.children}
-        </a>
+        </div>
       );
     }
   }
   
-
-  export default function DropdownAngle(props){
-        return (
-        <Dropdown>
-          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-            <IconContext.Provider value={{size:"1.5em", color:"black"}}>
-            <FaAngleDown />
-            </IconContext.Provider>
-          </Dropdown.Toggle> 
-          <Dropdown.Menu >
-            {props.children}
-          </Dropdown.Menu>
-        </Dropdown>
-        )
-  }
+export default function DropdownAngle(props){
+      return (
+      <Dropdown>
+        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+          <IconContext.Provider value={{size:"1.5em", color:"black"}}>
+          <FaAngleDown />
+          </IconContext.Provider>
+        </Dropdown.Toggle> 
+        <Dropdown.Menu >
+          {props.children}
+        </Dropdown.Menu>
+      </Dropdown>
+      )
+}
