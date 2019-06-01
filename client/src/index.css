@@ -1,3 +1,5 @@
+@tailwind base;
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -6189,6 +6191,46 @@ table {
 
 .z-auto {
   z-index: auto;
+}
+
+.container {
+  width: 100%;
+}
+
+@media (min-width: 150px) {
+  .container {
+    max-width: 150px;
+  }
+}
+
+@media (min-width: 322px) {
+  .container {
+    max-width: 322px;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
 }
 
 /* Your custom CSS here */
