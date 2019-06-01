@@ -90,7 +90,7 @@ class PostImg extends Component {
       render() { 
         const {showConfirm} = this.props;
         return (
-          <div>
+          <div className="lg:ml-20">
             <div className="form-group">
               <ToastContainer />
             </div>

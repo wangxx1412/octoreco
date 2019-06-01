@@ -73,10 +73,10 @@ class Setting extends Component {
         }
 
         return(
-            <div>
+            <div style={{backgroundColor:"#fafafa"}} className="h-full pb-32">
                 <Header />
                 {loaded? 
-                <div className="flex items-center justify-center container h-full w-full mt-20 bg-purple-lightest border-purple-dark border-2 rounded shadow">
+                <div className="flex items-center justify-center container h-full md:w-3/5 mt-20 bg-purple-lightest border-purple-dark border-2 rounded shadow">
                     <div className="w-full rounded overflow-hidden">
                         <div className="flex my-3 border-purple-dark border-b-2">
                             <div className="flex w-1/4 h-auto font-bold text-purple mx-2 my-2 lg:mx-3 lg:my-3">
@@ -87,7 +87,6 @@ class Setting extends Component {
                                 <div className="font-display mb-2">Username: <b>{user.username}</b></div>
                                 <div className="font-display mb-2">Email: {this.getEmail(user)}</div>
                                 <div className="font-display mb-2">You have <b>{user.posts.length}</b> posts</div>
-                                <div className="font-display mb-2">You have saved <b>{user.savedPosts.length}</b> posts</div>
                             </div>
                         </div>
                         <div className="flex mb-3 border-purple-dark border-b-2">

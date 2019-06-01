@@ -8,7 +8,7 @@ export const renderPosts = (posts, like, likes, save, likeToggle, saveToggle) =>
     const s3Url = "https://s3-us-west-2.amazonaws.com/octoreco-bucket-1/";
     return posts.map((post, index)=>{
         return (
-            <div key={post._id}>
+            <div key={post._id} className="md:ml-20">
             <Card key={index} style={{maxWidth:"600px", marginBottom:"60px"}}>
             <Card.Header style={{backgroundColor: "white"}}><b>{post.user.username}</b></Card.Header>
             <Carousel interval={null}>
@@ -58,7 +58,7 @@ export const renderPosts = (posts, like, likes, save, likeToggle, saveToggle) =>
                     on {new Date(post.created).toDateString()}
                     </small>
                     <Link to={`/posts/${post._id}`}>
-                    <span style={{ position: "absolute", right: "10px" }}>
+                    <span className="text-purple font-italic" style={{ position: "absolute", right: "10px" }}>
                     <small>Read more...</small> 
                     </span>
                     </Link>

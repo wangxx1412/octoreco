@@ -4,7 +4,7 @@ import * as actions from '../actions';
 import { like, unlike, save, unsave, comment, uncomment, remove } from './posts/apiPost';
 import { connect } from 'react-redux';
 import { Link, Redirect } from "react-router-dom";
-import { Button, Card, Container, Dropdown, Form, InputGroup } from 'react-bootstrap'
+import { Button, Card, Carousel, Container, Dropdown, Form, InputGroup } from 'react-bootstrap'
 import { IconContext } from "react-icons";
 import { FaRegHeart, FaRegBookmark, FaHeart, FaBookmark, FaTimes } from "react-icons/fa";
 import DropdownAngle from './posts/Dropdown'
@@ -163,6 +163,7 @@ class PostShow extends Component {
 
     renderPost = post => {
         const { auth, like, likes, save } = this.state;
+        const s3Url = "https://s3-us-west-2.amazonaws.com/octoreco-bucket-1/";
 
         return (
             <Card style={{maxWidth:"40rem"}}>
@@ -183,6 +184,13 @@ class PostShow extends Component {
                 </DropdownAngle>
                 </span>
             </Card.Header>
+                <Carousel interval={null}>
+                    {post.imageUrl.map((imgUrl, index)=>{
+                        return <Carousel.Item key={imgUrl+index}>
+                                <Card.Img variant="top" src={s3Url+imgUrl}/> 
+                                </Carousel.Item>
+                    })}
+                </Carousel>
                 <Card.Body>
                 <Card.Text style={{ position: "relative"}}>
                 {like ? (
@@ -299,7 +307,7 @@ class PostShow extends Component {
                         <h4>If no response, please refresh the page</h4>
                     </div>
                 ) : (
-                    <div style={{paddingTop: "40px"}}>
+                    <div className="lg:ml-20" style={{paddingTop: "40px"}}>
                     {this.renderPost(post)}
                     </div>
                 )}

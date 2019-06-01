@@ -1,5 +1,5 @@
 import React from 'react';
-import {Person, Setting} from '../assets/svg'
+import {Person, New, Setting} from '../assets/svg'
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import * as actions from '../actions';
@@ -35,9 +35,9 @@ class Header extends React.Component {
   render() {
     const {user, loaded} = this.state;
     return (
-      <nav className="flex items-center justify-between flex-wrap bg-purple-dark p-6">
-        <div className="flex items-center text-grey-lightest lg:ml-32">
-          <span className="font-bold text-xl">
+      <nav className="flex items-center justify-between flex-wrap bg-white p-6 border-b-2 border-purple-light shadow-sm">
+        <div className="flex items-center text-purple-dark md:ml-24 lg:ml-32">
+          <span className="font-bold text-xl lg:ml-20">
           {user?<Link to="/posts" style={{color:"inherit", textDecoration:"none"}}>Octoreco</Link>:
           <Link to="/" style={{color:"inherit", textDecoration:"none"}}>Octoreco</Link>}
           </span>
@@ -45,16 +45,17 @@ class Header extends React.Component {
         {loaded?
         <div className="flex">
           {user ?
-          <div className="flex">
+          <div className="flex text-purple-dark  md:mr-24 lg:mr-32">
+            <div className="flex items-center mr-4"><a href={`http://localhost:3000/posts/new` }style={{color:"inherit", textDecoration:"none"}}><New /></a></div>
             <div className="flex items-center mr-4"><a href={`http://localhost:3000/user/${user._id}` }style={{color:"inherit", textDecoration:"none"}}><Person /></a></div>
-            <div className="flex items-center inline-block lg:mr-32">
-              <a href={`http://localhost:3000/settings/${user._id}`} style={{color:"inherit", textDecoration:"none"}}>
+            <div className="flex items-center inline-block">
+              <a className="lg:mr-20" href={`http://localhost:3000/settings/${user._id}`} style={{color:"inherit", textDecoration:"none"}}>
               <Setting />
               </a>
             </div>
           </div>
           : 
-          <div className="inline-block lg:mr-32 font-bold text-grey-lightest">
+          <div className="inline-block font-bold text-purple-dark">
           <a href="http://localhost:3000" style={{color:"inherit", textDecoration:"none"}}>Login Here</a>
           </div>}
         </div>

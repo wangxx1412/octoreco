@@ -118,7 +118,7 @@ export function Magnifier (){
 
 export function Person(){
 	return(
-		<svg className="w-6 h-6 fill-grey-lightest" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"viewBox="0 0 512 512">
+		<svg className="w-6 h-6 fill-current" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"viewBox="0 0 512 512">
 <g>
 	<g>
 		<path d="M437.02,330.98c-27.883-27.882-61.071-48.523-97.281-61.018C378.521,243.251,404,198.548,404,148
@@ -134,7 +134,7 @@ export function Person(){
 
 export function Setting(){
 	return(
-		<svg className="w-6 h-6 fill-grey-lightest" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="485.213px" height="485.212px" viewBox="0 0 485.213 485.212" >
+		<svg className="w-6 h-6 fill-current" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="485.213px" height="485.212px" viewBox="0 0 485.213 485.212" >
 		<g>
 			<path d="M485.212,272.93v-60.648l-65.535-10.93c-4.564-19.69-12.321-38.083-22.72-54.756l38.647-54.078l-42.876-42.883
 				l-54.11,38.62c-16.675-10.366-35.063-18.155-54.759-22.745L272.934,0h-60.65l-10.931,65.509
@@ -173,5 +173,16 @@ export function Telegram (){
 		<svg className="w-6 h-6 fill-current" viewBox="0 -31 512 512" xmlns="http://www.w3.org/2000/svg">
 		<path d="m123.195312 260.738281 63.679688 159.1875 82.902344-82.902343 142.140625 112.976562 100.082031-450-512 213.265625zm242.5-131.628906-156.714843 142.941406-19.519531 73.566407-36.058594-90.164063zm0 0"/>
 		</svg>
+	)
+}
+
+export function New(){
+	return(
+		<svg className="w-6 h-6 fill-current" height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
+		<path d="m437.019531 74.980469c-48.351562-48.351563-112.640625-74.980469-181.019531-74.980469s-132.667969 26.628906-181.019531 
+		74.980469c-48.351563 48.351562-74.980469 112.640625-74.980469 181.019531s26.628906 132.667969 74.980469 181.019531c48.351562 48.351563 
+		112.640625 74.980469 181.019531 74.980469s132.667969-26.628906 181.019531-74.980469c48.351563-48.351562 74.980469-112.640625 
+		74.980469-181.019531s-26.628906-132.667969-74.980469-181.019531zm-181.019531 397.019531c-119.101562 0-216-96.898438-216-216s96.898438-216 
+		216-216 216 96.898438 216 216-96.898438 216-216 216zm20-236.019531h90v40h-90v90h-40v-90h-90v-40h90v-90h40zm0 0"/></svg>
 	)
 }

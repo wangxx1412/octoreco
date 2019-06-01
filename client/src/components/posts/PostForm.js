@@ -8,7 +8,7 @@ class PostForm extends React.Component {
     render(){
         const { handleSubmit, showConfirm } = this.props;
       return (
-        <form onSubmit={handleSubmit(this.props.onPostSubmit)}>
+        <form onSubmit={handleSubmit(this.props.onPostSubmit)} className="lg:ml-20">
           {showConfirm?
         null :
         <div>

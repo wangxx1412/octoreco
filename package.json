@@ -8,6 +8,9 @@
     "start": "nodemon index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
+    "homepage": "https://wangxx1412.github.io/octoreco",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Xiaoxuan Wang",

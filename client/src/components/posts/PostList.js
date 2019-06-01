@@ -114,7 +114,7 @@ class PostList extends Component {
     render() {      
         const { loaded, posts, like, likes, save} = this.state;
         return (
-          <div style={{paddingTop: "40px"}}>
+          <div className="container" style={{paddingTop: "40px"}}>
             {loaded ? renderPosts(posts, like, likes, save, this.likeToggle, this.saveToggle) :null}
         </div>
         );
