@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon --exec mocha --timeout 10000",
+    "server1": "node index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "homepage": "https://wangxx1412.github.io/octoreco",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run server1\" \"npm run client\""
   },
   "author": "Xiaoxuan Wang",
   "license": "ISC",

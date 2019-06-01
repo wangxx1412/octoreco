@@ -20,7 +20,8 @@
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0",
-    "tailwindcss": "^0.7.4"
+    "tailwindcss": "^0.7.4",
+    "postcss-cli": "^6.1.2"
   },
   "scripts": {
     "build:css": "postcss src/styles/index.css -o src/index.css",
@@ -40,7 +41,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "autoprefixer": "^9.5.1",
-    "postcss-cli": "^6.1.2"
+    "autoprefixer": "^9.5.1"
   }
 }
