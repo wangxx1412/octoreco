@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon --exec mocha --timeout 10000",
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -28,5 +28,8 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^1.0.0",
     "uuid": "^3.3.2"
+  },
+  "engines": {
+    "node": "10.15.3"
   }
 }
