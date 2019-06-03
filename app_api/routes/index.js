@@ -8,7 +8,6 @@ const ctrlUser = require('../controllers/user');
 
 const AWS = require('aws-sdk');
 const uuid = require('uuid/v1');
-const keys = require('../../config/keys');
 const requireLogin = require('../../middlewares/requireLogin');
 
 router.get('/', (req, res)=>{
@@ -17,8 +16,8 @@ router.get('/', (req, res)=>{
 
 
 const s3 = new AWS.S3({
-    accessKeyId: keys.accessKeyId,
-    secretAccessKey: keys.secretAccessKey
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY
 });
 
 //Upload jpeg to s3
