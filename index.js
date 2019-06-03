@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
-const keys = require('./config/keys');
 const cors = require('cors');
 const index = require("./app_server/routes/index");
 const apiRoutes = require("./app_api/routes/index");
