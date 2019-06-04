@@ -46,17 +46,17 @@ class Header extends React.Component {
         <div className="flex">
           {user ?
           <div className="flex text-purple-dark  md:mr-24 lg:mr-32">
-            <div className="flex items-center mr-4"><a href={`http://localhost:3000/posts/new` }style={{color:"inherit", textDecoration:"none"}}><New /></a></div>
-            <div className="flex items-center mr-4"><a href={`http://localhost:3000/user/${user._id}` }style={{color:"inherit", textDecoration:"none"}}><Person /></a></div>
+            <div className="flex items-center mr-4"><Link to={`/posts/new` }style={{color:"inherit", textDecoration:"none"}}><New /></Link></div>
+            <div className="flex items-center mr-4"><Link to={`user/${user._id}` }style={{color:"inherit", textDecoration:"none"}}><Person /></Link></div>
             <div className="flex items-center inline-block">
-              <a className="lg:mr-20" href={`http://localhost:3000/settings/${user._id}`} style={{color:"inherit", textDecoration:"none"}}>
+              <Link className="lg:mr-20" to={`/settings/${user._id}`} style={{color:"inherit", textDecoration:"none"}}>
               <Setting />
-              </a>
+              </Link>
             </div>
           </div>
           : 
           <div className="inline-block font-bold text-purple-dark">
-          <a href="http://localhost:3000" style={{color:"inherit", textDecoration:"none"}}>Login Here</a>
+          <Link to="/" style={{color:"inherit", textDecoration:"none"}}>Login Here</Link>
           </div>}
         </div>
        : null}

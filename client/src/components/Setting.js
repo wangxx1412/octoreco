@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Header from './Header';
 import { Mail, Telegram, Twitter } from '../assets/svg';
 import {changeUserName, deleteUser} from './posts/apiPost';
@@ -109,7 +109,7 @@ class Setting extends Component {
                         </div>
                         <div className="flex mb-3 border-purple border-b-1">
                             <div className="flex w-1/4 h-auto font-bold text-red-dark hover:text-red-light mx-2 my-2 lg:mx-3 lg:my-3">
-                                <a className="mb-2" href={`http://localhost:3000/api/logout`} style={{color:"inherit", textDecoration:"none"}}>Log Out</a>
+                                <Link className="mb-2" to={`/api/logout`} style={{color:"inherit", textDecoration:"none"}}>Log Out</Link>
                             </div>
                             <div className="font-display text-purple w-3/4 h-auto mx-2 my-2 lg:mx-3 lg:my-3">Click to Sign Out from Octoreco</div>
                         </div>
@@ -127,12 +127,12 @@ class Setting extends Component {
                                 <div className="font font-display text-purple mb-2">View my Webpage</div>
                                 <div className="flex items-center font font-display text-purple mb-2">
                                 <div className="flex">Contact Me: </div>
-                                <a className="flex ml-2" href="mailto:wangxiaoxuan4869@gmail.com" style={{color:"inherit", textDecoration:"none"}}>
+                                <Link className="flex ml-2" to="mailto:wangxiaoxuan4869@gmail.com" style={{color:"inherit", textDecoration:"none"}}>
                                  <svg className="w-6 h-6 fill-current hover:w-8 h-8" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 382.117 382.117" >
                                 <Mail />
-                                </svg></a>
-                                <a className="flex" href="https://twitter.com/messages/compose?recipient_id=wangxx1128" style={{color:"inherit", textDecoration:"none"}}><Twitter /></a>
-                                <a className="flex" href="https://t.me/yszd320" style={{color:"inherit", textDecoration:"none"}}><Telegram /></a>
+                                </svg></Link>
+                                <Link className="flex" to="https://twitter.com/messages/compose?recipient_id=wangxx1128" style={{color:"inherit", textDecoration:"none"}}><Twitter /></Link>
+                                <Link className="flex" to="https://t.me/yszd320" style={{color:"inherit", textDecoration:"none"}}><Telegram /></Link>
                                 </div>
                             </div>
                         </div>

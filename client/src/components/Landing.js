@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import {GooglePlus, Facebook, Github, Magnifier, Mail} from '../assets/svg'
 
 class Landing extends Component {
@@ -22,7 +23,7 @@ class Landing extends Component {
                   </div>
                   <div className="text-grey-lightest">Share your moment !</div> 
                   <div className="text-xl lg:text-2xl font-bold text-grey-lightest underline xs:pt-4"> 
-                    <a href="http://localhost:3000/posts" style={{color:"inherit", textDecoration:"none"}}><Magnifier />View as Guest</a>
+                    <Link to="/posts" style={{color:"inherit", textDecoration:"none"}}><Magnifier />View as Guest</Link>
                   </div>             
               </div>
             </div>
@@ -33,18 +34,18 @@ class Landing extends Component {
                   <p className="flex items-center w-5/6 font-display font-bold text-2xl text-purple-dark border-b-2 border-purple-lightest py-1 my-4">
                   Social Login
                   </p>
-                  <a className="flex items-center justify-center w-full" href="http://localhost:3000/auth/google" style={{color:"inherit", textDecoration:"none"}}>
+                  <Link className="flex items-center justify-center w-full" to="/auth/google" style={{color:"inherit", textDecoration:"none"}}>
                   <button className="flex items-center justify-center bg-red hover:bg-red-dark text-white border border-grey-light font-display font-bold w-5/6 h-16 py-2 px-4 rounded">
                       <GooglePlus />
                       <p>Sign in with Google</p>
                   </button>
-                  </a>
-                  <a className="flex items-center justify-center w-full" href="http://localhost:3000/auth/facebook" style={{color:"inherit", textDecoration:"none"}}>
+                  </Link>
+                  <Link className="flex items-center justify-center w-full" to="/auth/facebook" style={{color:"inherit", textDecoration:"none"}}>
                   <button className="flex items-center justify-center bg-blue hover:bg-blue-dark text-white border border-grey-light font-display font-bold w-5/6 h-16 mb-10 py-2 px-4 rounded">
                     <Facebook />
                     <p>Sign in with Facebook</p>
                   </button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
