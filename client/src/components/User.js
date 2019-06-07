@@ -10,6 +10,7 @@ class User extends Component {
         loaded: false,
         posts: "",
         auth: "",
+        showAuthReq: false,
         redirectToHome: false,
         redirectToSignin: false,
         like: Array(6).fill(false),
@@ -30,30 +31,33 @@ class User extends Component {
     };
 
     async componentDidMount() {
+        const { userid } = this.props.match.params;
+       
         await this.props.fetchUser().then(()=>{
             this.setState({
                 auth: this.props.auth
             })
         });
-        await this.props.fetchUserPosts(this.state.auth._id).then(()=>{
-            if(!this.state.auth){
+
+        if(!this.state.auth){
+            await this.setState({
+                showAuthReq: true,
+                loaded: true
+            })
+        } else {
+            await this.props.fetchUserPosts(userid).then(()=>{
                 this.setState({
                     posts: this.props.posts,
                     like: this.props.posts.map(post=>this.checkLike(post.likes)),
-                    likes: this.props.posts.map(post=>post.likes.length)
+                    likes: this.props.posts.map(post=>post.likes.length),
+                    save: this.props.posts.map(post=>this.checkSave(post))
                 })
-            } else{
-            this.setState({
-                posts: this.props.posts,
-                like: this.props.posts.map(post=>this.checkLike(post.likes)),
-                likes: this.props.posts.map(post=>post.likes.length),
-                save: this.props.posts.map(post=>this.checkSave(post))
-            })}
-        }).then(()=>{
-            this.setState({
-                loaded:true
-            })
-        });
+            }).then(()=>{
+                this.setState({
+                    loaded:true
+                })
+            });
+        }
     }
 
     likeToggle = (post,i) => {
@@ -113,12 +117,23 @@ class User extends Component {
     };
 
 render(){
-    const { loaded, posts, like, likes, save } = this.state;
+    const { loaded, showAuthReq, posts, like, likes, save } = this.state;
     return(
         <div>
             <Header />
             <div className="container" style={{paddingTop: "40px"}}>
-            {loaded ? renderPosts(posts, like, likes, save): null }
+            {loaded ? (showAuthReq ? 
+                <div className="md:mx-20 lg:mx-32" role="alert">
+                <div className="bg-red text-white text-2xl font-bold rounded-t px-4 py-2">
+                  Sorry...
+                </div>
+                <div className="flex justify-between border border-t-0 border-red-light rounded-b bg-red-lightest px-4 py-3 text-red-dark">
+                  <span>You must log in to view user's page.</span>
+                  <a href='/posts' className="font-bold" style={{color:"inherit"}}>Back to posts</a>
+                </div>
+              </div>
+                 :renderPosts(posts, like, likes, save))
+                : null }
             </div>    
         </div>
          );

@@ -34,18 +34,18 @@ class Landing extends Component {
                   <p className="flex items-center w-5/6 font-display font-bold text-2xl text-purple-dark border-b-2 border-purple-lightest py-1 my-4">
                   Social Login
                   </p>
-                  <Link className="flex items-center justify-center w-full" to="/auth/google" style={{color:"inherit", textDecoration:"none"}}>
+                  <a className="flex items-center justify-center w-full" href="/auth/google" style={{color:"inherit", textDecoration:"none"}}>
                   <button className="flex items-center justify-center bg-red hover:bg-red-dark text-white border border-grey-light font-display font-bold w-5/6 h-16 py-2 px-4 rounded">
                       <GooglePlus />
                       <p>Sign in with Google</p>
                   </button>
-                  </Link>
-                  <Link className="flex items-center justify-center w-full" to="/auth/facebook" style={{color:"inherit", textDecoration:"none"}}>
+                  </a>
+                  <a className="flex items-center justify-center w-full" href="/auth/facebook" style={{color:"inherit", textDecoration:"none"}}>
                   <button className="flex items-center justify-center bg-blue hover:bg-blue-dark text-white border border-grey-light font-display font-bold w-5/6 h-16 mb-10 py-2 px-4 rounded">
                     <Facebook />
                     <p>Sign in with Facebook</p>
                   </button>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

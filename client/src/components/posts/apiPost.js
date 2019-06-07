@@ -1,5 +1,5 @@
 export const like = async (userId, postId) => {
-    return await fetch(`http://localhost:3000/api/posts/like`, {
+    return await fetch(`/api/posts/like`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -14,7 +14,7 @@ export const like = async (userId, postId) => {
 };
 
 export const unlike = async (userId, postId) => {
-    return await fetch(`http://localhost:3000/api/posts/unlike`, {
+    return await fetch(`/api/posts/unlike`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -29,7 +29,7 @@ export const unlike = async (userId, postId) => {
 };
 
 export const save = async (userId, postId) => {
-    return await fetch(`http://localhost:3000/api/posts/save`, {
+    return await fetch(`/api/posts/save`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -44,7 +44,7 @@ export const save = async (userId, postId) => {
 };
 
 export const unsave = async (userId, postId) => {
-    return await fetch(`http://localhost:3000/api/posts/unsave`, {
+    return await fetch(`/api/posts/unsave`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -59,7 +59,7 @@ export const unsave = async (userId, postId) => {
 };
 
 export const remove = (userId, postId) => {
-    return fetch(`http://localhost:3000/api/posts/post/${postId}`, {
+    return fetch(`/api/posts/post/${postId}`, {
         method: "DELETE",
         headers: {
             Accept: "application/json",
@@ -74,7 +74,7 @@ export const remove = (userId, postId) => {
 };
 
 export const comment = (userId, postId, comment) => {
-    return fetch(`http://localhost:3000/api/posts/${postId}/comment`, {
+    return fetch(`/api/posts/${postId}/comment`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -89,7 +89,7 @@ export const comment = (userId, postId, comment) => {
 };
 
 export const uncomment = (userId, postId, comment) => {
-    return fetch(`http://localhost:3000/api/posts/${postId}/uncomment`, {
+    return fetch(`/api/posts/${postId}/uncomment`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -104,7 +104,7 @@ export const uncomment = (userId, postId, comment) => {
 };
 
 export const changeUserName = (userId, newUserName) => {
-    return fetch(`http://localhost:3000/api/${userId}/changeusername`, {
+    return fetch(`/api/${userId}/changeusername`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -119,7 +119,7 @@ export const changeUserName = (userId, newUserName) => {
 };
 
 export const deleteUser = (userId) => {
-    return fetch(`http://localhost:3000/api/${userId}/deleteuser`, {
+    return fetch(`/api/${userId}/deleteuser`, {
         method: "Delete",
         headers: {
             Accept: "application/json",

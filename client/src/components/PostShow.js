@@ -168,7 +168,7 @@ class PostShow extends Component {
         return (
             <Card style={{maxWidth:"40rem"}}>
             <Card.Header style={{backgroundColor: "white"}} >
-                <Link to={`/user/${post.user._id}`} style={{color:"inherit", textDecoration:"none"}}></Link> <b> {post.user.username}</b>
+                <Link to={`/user/${post.user._id}`} style={{color:"inherit", textDecoration:"none"}}><b> {post.user.username}</b></Link> 
                 <span style={{position:"absolute", right: "30px", zIndex:"2" }} >
                 <DropdownAngle>
                     <Dropdown.Item disabled>Follow</Dropdown.Item>

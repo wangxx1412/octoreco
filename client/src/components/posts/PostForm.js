@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
@@ -22,7 +21,7 @@ class PostForm extends React.Component {
           />
           <div className="w-full">
           <button className="shadow bg-red hover:bg-red-light focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mt-2">
-          <Link to='/posts' style={{color:"inherit", textDecoration:"none"}}>Back</Link>
+          <a href='/posts' style={{color:"inherit", textDecoration:"none"}}>Back</a>
           </button>
           <button className="shadow bg-purple hover:bg-purple-light focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mt-2 ml-2" type='submit'>Next</button>
           </div>
