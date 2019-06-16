@@ -13,10 +13,34 @@ class User extends Component {
         showAuthReq: false,
         redirectToHome: false,
         redirectToSignin: false,
+        user: { following: [], followers: [] },
+        following: false,
         like: Array(6).fill(false),
         likes: Array(6).fill(0),
         save: Array(6).fill(false),
     };
+
+    // check follow
+    // checkFollow = user => {
+    //     const match = user.followers.find(follower => {
+    //         // one id has many other ids (followers) and vice versa
+    //         return follower._id === jwt.user._id;
+    //     });
+    //     return match;
+    // };
+
+    // clickFollowButton = callApi => {
+    //     const userId = isAuthenticated().user._id;
+    //     const token = isAuthenticated().token;
+
+    //     callApi(userId, token, this.state.user._id).then(data => {
+    //         if (data.error) {
+    //             this.setState({ error: data.error });
+    //         } else {
+    //             this.setState({ user: data, following: !this.state.following });
+    //         }
+    //     });
+    // };
 
     checkLike = likes => {
         const userId = this.state.auth && this.state.auth._id;

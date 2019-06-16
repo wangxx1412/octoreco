@@ -1,5 +1,6 @@
 const Post = require('../../models/post');
 const User = require('../../models/user');
+const AWS = require('aws-sdk');
 
 //***********Create a post***********/
 const postCreateOne = async (req, res) =>{
@@ -45,11 +46,17 @@ const postDeleteOne = async (req, res) => {
     const postid = req.body.postId;
     const loggedUserId  = req.user._id; // the current auth user
     const userId = req.body.userId; // author of the post
+    const imageUrls = req.body.imageUrl;
+
+    const s3 = new AWS.S3({
+        accessKeyId: process.env.ACCESS_KEY_ID,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY
+    });
 
     //Check Auth User is the Poster, Id type are diffrent
     if( loggedUserId == userId ){
         if (postid) {
-            await Post.findByIdAndRemove(postid).exec(async (err, post) => {
+            await Post.findOneAndRemove({_id: postid}).exec(async (err, post) => {
                 if (err) {
                     return res.status(404).json(err);
                 }
@@ -60,12 +67,23 @@ const postDeleteOne = async (req, res) => {
                         res.status(400).json(err);
                     } else {
                         user.posts.pull(post);
-                        user.save((err, user) => {
+                        user.save(async (err, user) => {
                             if(err) { 
                                 res.status(400).json(err);
                             }
                             else{
-                                res.status(201).json({message: "Post removed"});
+                                await Promise.all(imageUrls.map(async imageUrl =>{
+                                    const key = `${imageUrl}`;
+                                    const params = {
+                                        Bucket: "octoreco-bucket-1", 
+                                        Key: key
+                                       };
+                                    await s3.deleteObject(params, (err, data) => {
+                                         if (err) console.log(err, err.stack); 
+                                         else     console.log(data);           
+                                       });
+                                }))
+                                .then(res.status(201).json({message: "Post removed successfully"}));
                             }
                         });
                     }

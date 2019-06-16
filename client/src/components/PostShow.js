@@ -13,7 +13,7 @@ class PostShow extends Component {
     state = {
         post: "",
         auth: "",
-        redirectToHome: false,
+        redirectToPosts: false,
         redirectToSignin: false,
         like: false,
         likes: 0,
@@ -129,8 +129,10 @@ class PostShow extends Component {
     deletePost = () => {
         const postId = this.state.post._id;
         const userId = this.state.post.user._id;
-        remove(userId, postId).then(data => {
-                this.setState({ redirectToHome: true });
+        const imageUrl = this.state.post.imageUrl;
+
+        remove(userId, postId, imageUrl).then(data => {
+            this.setState({ redirectToPosts: true });
         });
     };
 
@@ -288,12 +290,12 @@ class PostShow extends Component {
     };
 
     render() {
-        const { post, redirectToHome, redirectToSignin } = this.state;
+        const { post, redirectToPosts, redirectToSignin } = this.state;
 
-        if (redirectToHome) {
-            return <Redirect to={`/`} />;
+        if (redirectToPosts) {
+            return <Redirect to={`/posts`} />;
         } else if (redirectToSignin) {
-            return <Redirect to={`/signin`} />;
+            return <Redirect to={`/`} />;
         }
 
         return (

@@ -14,6 +14,10 @@ router.get('/', (req, res)=>{
     res.send('HEllooo API')
 });
 
+router.get('/logout', (req,res)=>{
+    req.logout();
+    res.redirect('/');
+});
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
@@ -76,27 +80,21 @@ router
     .get(ctrlPosts.postsByUser)
 
 //Delete One post
-router
-    .route("/posts/post/:postid")
-    .delete(requireLogin, ctrlPosts.postDeleteOne)
+router.delete("/posts/post/:postid", requireLogin, ctrlPosts.postDeleteOne);
 
 //Comment & Uncomment 
-router
-    .route("/posts/:postid/comment")
-    .put(requireLogin, ctrlComments.comment)
-
-router
-    .route("/posts/:postid/uncomment")
-    .put(requireLogin, ctrlComments.uncomment)
+router.put("/posts/:postid/comment", requireLogin, ctrlComments.comment);
+    
+router.put("/posts/:postid/uncomment", requireLogin, ctrlComments.uncomment)
 
 //Update UserName
-router 
-    .route("/:userid/changeusername")
-    .put(requireLogin, ctrlUser.changeUserName)
-
+router.put("/:userid/changeusername", requireLogin, ctrlUser.changeUserName); 
+    
 //Delete User
-router
-    .route("/:userid/deleteuser")
-    .delete(requireLogin, ctrlUser.deleteUser)
+router.delete("/:userid/deleteuser", requireLogin, ctrlUser.deleteUser);
+
+//Follow & Unfollow
+router.put("/user/follow", requireLogin, ctrlUser.addFollowing, ctrlUser.addFollower);
+router.put("/user/unfollow", requireLogin, ctrlUser.removeFollowing, ctrlUser.removeFollower);
     
 module.exports = router;

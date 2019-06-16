@@ -58,14 +58,14 @@ export const unsave = async (userId, postId) => {
         .catch(err => console.log(err));
 };
 
-export const remove = (userId, postId) => {
+export const remove = (userId, postId, imageUrl) => {
     return fetch(`/api/posts/post/${postId}`, {
         method: "DELETE",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ userId, postId })
+        body: JSON.stringify({ userId, postId, imageUrl })
     })
         .then(response => {
             return response.json();
@@ -132,3 +132,4 @@ export const deleteUser = (userId) => {
         })
         .catch(err => console.log(err));
 };
+
