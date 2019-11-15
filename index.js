@@ -5,6 +5,7 @@ const cors = require('cors');
 const apiRoutes = require("./app_api/routes/index");
 const authRoutes = require("./app_auth/routes/index");
 const cookieSession = require('cookie-session');
+
 const app = express();
 
 require("./models/db");
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    maxAge: 60 * 60 * 1000,
     keys: [process.env.COOKIE_KEY]
   })
 );

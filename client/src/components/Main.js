@@ -1,19 +1,19 @@
-import React from 'react';
-import Header from './Header';
-import PostList from './posts/PostList';
+import React from "react";
+import Header from "./Header";
+import PostList from "./posts/PostList";
 //import {Container} from 'react-bootstrap'
 
 class Main extends React.Component {
-  render(){
+  render() {
     return (
       <div>
         <Header />
-      <div style={{backgroundColor:"#fafafa"}}>
+        <div style={{ backgroundColor: "#fafafa" }}>
           <PostList />
-      </div>
+        </div>
       </div>
     );
   }
-};
+}
 
 export default Main;
