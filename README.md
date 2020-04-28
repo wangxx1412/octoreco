@@ -1,23 +1,55 @@
-# OctoReco
+# "Octoreco" - Personal Project
 
-Octoreco is an instagram like app for study purpose.
+### Author: [Xiaoxuan Wang](https://github.com/wangxx1412)
 
-It is done based on MERN stack.
+## Overview
 
-## Installation
+This project is an instagram clone, a full-stack app based on MERN stack.
 
-Run `npm install` and change directory into client folder run `npm install` again.
+## Final Product
 
-In root folder, run `npm run dev` to start the app.
+Landing Page
 
-## Test
+!["Landing Page"](https://github.com/wangxx1412/octoreco/blob/master/docs/octoreco-home.png?raw=true)
 
-## Functionality
+Home Page
 
-Signup the app through either Google or Facebook.
+!["Home Page"](https://github.com/wangxx1412/octoreco/blob/master/docs/octoreco-post.png?raw=true)
 
-You can make a post and leave a comment to any posts.
+Upload Page
 
-You can delete your post and even your account.
+!["Upload Page"](https://github.com/wangxx1412/octoreco/blob/master/docs/octoreco-upload.png?raw=true)
 
-You can like and save a post.
+User Page
+
+!["User Page"](https://github.com/wangxx1412/octoreco/blob/master/docs/octoreco-user.png?raw=true)
+
+## Getting Started
+
+1. Fork this repository, then clone your fork of this repository.
+2. Install dependencies using the `npm install` command in both the root folder as well as the "client" folder.
+3. Start the web server using the `npm run dev` command while in the root folder.
+4. Go to <http://localhost:3000/> in your browser.
+
+## Tech Stack
+
+- Axios
+- AWS-S3
+- Express
+- Heroku
+- MongoDB
+- Passport
+- React
+- React Router
+- Tailwind
+
+## Functionalities
+
+- User can register through google and facebook oauth
+- User can make a post with up to three images and a title
+- User can leave comments to a certain post
+- User can change username and delete account
+
+## Contact the Contributors
+
+Questions? Comments? Want to contribute to this? Feel free to contact any of the contributors of this repo.
