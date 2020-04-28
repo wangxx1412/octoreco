@@ -1,4 +1,4 @@
-# "Octoreco" - Personal Project
+# Octoreco - Personal Project
 
 ### Author: [Xiaoxuan Wang](https://github.com/wangxx1412)
 
@@ -50,6 +50,6 @@ User Page
 - User can leave comments to a certain post
 - User can change username and delete account
 
-## Contact the Contributors
+## Contact the Author
 
 Questions? Comments? Want to contribute to this? Feel free to contact any of the contributors of this repo.
