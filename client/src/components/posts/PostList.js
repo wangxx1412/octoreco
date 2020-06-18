@@ -3,23 +3,24 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { like, unlike, save, unsave } from "./apiPost";
 import { renderPosts } from "./renderPosts";
+import { Redirect } from "react-router-dom";
+import { checkLike, checkSave } from "./helper";
 
 class PostList extends Component {
   state = {
     loaded: false,
     posts: "",
     auth: "",
-    redirectToHome: false,
     redirectToSignin: false,
-    like: Array(6).fill(false),
-    likes: Array(6).fill(0),
-    save: Array(6).fill(false)
+    like: Array(20).fill(false),
+    likes: Array(20).fill(0),
+    save: Array(20).fill(false),
   };
 
   async componentDidMount() {
     await this.props.fetchUser().then(() => {
       this.setState({
-        auth: this.props.auth
+        auth: this.props.auth,
       });
     });
     await this.props
@@ -28,36 +29,25 @@ class PostList extends Component {
         if (!this.state.auth) {
           this.setState({
             posts: this.props.posts,
-            like: this.props.posts.map(post => this.checkLike(post.likes)),
-            likes: this.props.posts.map(post => post.likes.length)
+            likes: this.props.posts.map((post) => post.likes.length),
           });
         } else {
           this.setState({
             posts: this.props.posts,
-            like: this.props.posts.map(post => this.checkLike(post.likes)),
-            likes: this.props.posts.map(post => post.likes.length),
-            save: this.props.posts.map(post => this.checkSave(post))
+            like: this.props.posts.map((post) =>
+              checkLike(post.likes, this.state)
+            ),
+            likes: this.props.posts.map((post) => post.likes.length),
+            save: this.props.posts.map((post) => checkSave(post, this.state)),
           });
         }
       })
       .then(() => {
         this.setState({
-          loaded: true
+          loaded: true,
         });
       });
   }
-
-  checkLike = likes => {
-    const userId = this.state.auth._id; //this.state.auth && this.state.auth._id;
-    let match = likes.indexOf(userId) !== -1;
-    return match;
-  };
-
-  checkSave = post => {
-    const postId = post._id;
-    let match = this.state.auth.savedPosts.indexOf(postId) !== -1;
-    return match;
-  };
 
   likeToggle = (post, i) => {
     if (!this.state.auth) {
@@ -68,24 +58,24 @@ class PostList extends Component {
     const postId = post._id;
 
     this.state.like[i]
-      ? unlike(userId, postId).then(data => {
+      ? unlike(userId, postId).then((data) => {
           const newLike = [...this.state.like];
           newLike[i] = !this.state.like[i];
           const numLikes = [...this.state.likes];
           numLikes[i] = data.likes.length;
           this.setState({
             like: newLike,
-            likes: numLikes
+            likes: numLikes,
           });
         })
-      : like(userId, postId).then(data => {
+      : like(userId, postId).then((data) => {
           const newLike = [...this.state.like];
           newLike[i] = !this.state.like[i];
           const numLikes = [...this.state.likes];
           numLikes[i] = data.likes.length;
           this.setState({
             like: newLike,
-            likes: numLikes
+            likes: numLikes,
           });
         });
   };
@@ -103,20 +93,25 @@ class PostList extends Component {
           const newSave = [...this.state.save];
           newSave[i] = !this.state.save[i];
           this.setState({
-            save: newSave
+            save: newSave,
           });
         })
       : save(userId, postId).then(() => {
           const newSave = [...this.state.save];
           newSave[i] = !this.state.save[i];
           this.setState({
-            save: newSave
+            save: newSave,
           });
         });
   };
 
   render() {
-    const { loaded, posts, like, likes, save } = this.state;
+    const { loaded, posts, like, likes, save, redirectToSignin } = this.state;
+
+    if (redirectToSignin) {
+      return <Redirect to={`/`} />;
+    }
+
     return (
       <div className="container" style={{ paddingTop: "40px" }}>
         {loaded
@@ -137,11 +132,8 @@ class PostList extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts.posts,
-    auth: state.auth
+    auth: state.auth,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  actions
-)(PostList);
+export default connect(mapStateToProps, actions)(PostList);

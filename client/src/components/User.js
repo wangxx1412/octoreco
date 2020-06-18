@@ -11,44 +11,19 @@ class User extends Component {
     posts: "",
     auth: "",
     showAuthReq: false,
-    redirectToHome: false,
     redirectToSignin: false,
-    user: { following: [], followers: [] },
-    following: false,
     like: Array(12).fill(false),
     likes: Array(12).fill(0),
-    save: Array(12).fill(false)
+    save: Array(12).fill(false),
   };
 
-  // check follow
-  // checkFollow = user => {
-  //     const match = user.followers.find(follower => {
-  //         // one id has many other ids (followers) and vice versa
-  //         return follower._id === jwt.user._id;
-  //     });
-  //     return match;
-  // };
-
-  // clickFollowButton = callApi => {
-  //     const userId = isAuthenticated().user._id;
-  //     const token = isAuthenticated().token;
-
-  //     callApi(userId, token, this.state.user._id).then(data => {
-  //         if (data.error) {
-  //             this.setState({ error: data.error });
-  //         } else {
-  //             this.setState({ user: data, following: !this.state.following });
-  //         }
-  //     });
-  // };
-
-  checkLike = likes => {
+  checkLike = (likes) => {
     const userId = this.state.auth && this.state.auth._id;
     let match = likes.indexOf(userId) !== -1;
     return match;
   };
 
-  checkSave = post => {
+  checkSave = (post) => {
     const postId = post._id;
     let match = this.state.auth.savedPosts.indexOf(postId) !== -1;
     return match;
@@ -59,14 +34,14 @@ class User extends Component {
 
     await this.props.fetchUser().then(() => {
       this.setState({
-        auth: this.props.auth
+        auth: this.props.auth,
       });
     });
 
     if (!this.state.auth) {
       await this.setState({
         showAuthReq: true,
-        loaded: true
+        loaded: true,
       });
     } else {
       await this.props
@@ -74,14 +49,14 @@ class User extends Component {
         .then(() => {
           this.setState({
             posts: this.props.posts,
-            like: this.props.posts.map(post => this.checkLike(post.likes)),
-            likes: this.props.posts.map(post => post.likes.length),
-            save: this.props.posts.map(post => this.checkSave(post))
+            like: this.props.posts.map((post) => this.checkLike(post.likes)),
+            likes: this.props.posts.map((post) => post.likes.length),
+            save: this.props.posts.map((post) => this.checkSave(post)),
           });
         })
         .then(() => {
           this.setState({
-            loaded: true
+            loaded: true,
           });
         });
     }
@@ -96,24 +71,24 @@ class User extends Component {
     const postId = post._id;
 
     this.state.like[i]
-      ? unlike(userId, postId).then(data => {
+      ? unlike(userId, postId).then((data) => {
           const newLike = [...this.state.like];
           newLike[i] = !this.state.like[i];
           const numLikes = [...this.state.likes];
           numLikes[i] = data.likes.length;
           this.setState({
             like: newLike,
-            likes: numLikes
+            likes: numLikes,
           });
         })
-      : like(userId, postId).then(data => {
+      : like(userId, postId).then((data) => {
           const newLike = [...this.state.like];
           newLike[i] = !this.state.like[i];
           const numLikes = [...this.state.likes];
           numLikes[i] = data.likes.length;
           this.setState({
             like: newLike,
-            likes: numLikes
+            likes: numLikes,
           });
         });
   };
@@ -131,14 +106,14 @@ class User extends Component {
           const newSave = [...this.state.save];
           newSave[i] = !this.state.save[i];
           this.setState({
-            save: newSave
+            save: newSave,
           });
         })
       : save(userId, postId).then(() => {
           const newSave = [...this.state.save];
           newSave[i] = !this.state.save[i];
           this.setState({
-            save: newSave
+            save: newSave,
           });
         });
   };
@@ -179,11 +154,8 @@ class User extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts.posts,
-    auth: state.auth
+    auth: state.auth,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  actions
-)(User);
+export default connect(mapStateToProps, actions)(User);

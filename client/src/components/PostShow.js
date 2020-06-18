@@ -8,8 +8,9 @@ import {
   unsave,
   comment,
   uncomment,
-  remove
+  remove,
 } from "./posts/apiPost";
+import { checkLike, checkSave } from "./posts/helper";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import {
@@ -19,7 +20,7 @@ import {
   Container,
   Dropdown,
   Form,
-  InputGroup
+  InputGroup,
 } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import {
@@ -27,7 +28,7 @@ import {
   FaRegBookmark,
   FaHeart,
   FaBookmark,
-  FaTimes
+  FaTimes,
 } from "react-icons/fa";
 import DropdownAngle from "./posts/Dropdown";
 
@@ -41,25 +42,13 @@ class PostShow extends Component {
     likes: 0,
     save: false,
     comments: [],
-    newComment: ""
-  };
-
-  checkLike = likes => {
-    const userId = this.state.auth && this.state.auth._id;
-    let match = likes.indexOf(userId) !== -1;
-    return match;
-  };
-
-  checkSave = post => {
-    const postId = post._id;
-    let match = this.state.auth.savedPosts.indexOf(postId) !== -1;
-    return match;
+    newComment: "",
   };
 
   async componentDidMount() {
     await this.props.fetchUser().then(() => {
       this.setState({
-        auth: this.props.auth
+        auth: this.props.auth,
       });
     });
     const postId = this.props.match.params.postid;
@@ -69,16 +58,15 @@ class PostShow extends Component {
         this.setState({
           post: this.props.post,
           likes: this.props.post.likes.length,
-          like: this.checkLike(this.props.post.likes),
-          comments: this.props.post.comments
+          comments: this.props.post.comments,
         });
       } else {
         this.setState({
           post: this.props.post,
           likes: this.props.post.likes.length,
-          like: this.checkLike(this.props.post.likes),
-          save: this.checkSave(this.props.post),
-          comments: this.props.post.comments
+          like: checkLike(this.props.post.likes, this.state),
+          save: checkSave(this.props.post, this.state),
+          comments: this.props.post.comments,
         });
       }
     });
@@ -93,16 +81,16 @@ class PostShow extends Component {
     const postId = this.state.post._id;
 
     this.state.like
-      ? unlike(userId, postId).then(data => {
+      ? unlike(userId, postId).then((data) => {
           this.setState({
             like: !this.state.like,
-            likes: data.likes.length
+            likes: data.likes.length,
           });
         })
-      : like(userId, postId).then(data => {
+      : like(userId, postId).then((data) => {
           this.setState({
             like: !this.state.like,
-            likes: data.likes.length
+            likes: data.likes.length,
           });
         });
   };
@@ -118,32 +106,32 @@ class PostShow extends Component {
     this.state.save
       ? unsave(userId, postId).then(() => {
           this.setState({
-            save: !this.state.save
+            save: !this.state.save,
           });
         })
       : save(userId, postId).then(() => {
           this.setState({
-            save: !this.state.save
+            save: !this.state.save,
           });
         });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ newComment: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     if (!this.state.auth) {
       this.setState({ redirectToSignin: true });
       return false;
     }
     event.preventDefault();
     comment(this.state.auth._id, this.state.post._id, {
-      comment: this.state.newComment
-    }).then(data => {
+      comment: this.state.newComment,
+    }).then((data) => {
       this.setState({
         comments: data.comments,
-        newComment: ""
+        newComment: "",
       });
     });
   };
@@ -153,7 +141,7 @@ class PostShow extends Component {
     const userId = this.state.post.user._id;
     const imageUrl = this.state.post.imageUrl;
 
-    remove(userId, postId, imageUrl).then(data => {
+    remove(userId, postId, imageUrl).then((data) => {
       this.setState({ redirectToPosts: true });
     });
   };
@@ -165,16 +153,16 @@ class PostShow extends Component {
     }
   };
 
-  deleteComment = comment => {
+  deleteComment = (comment) => {
     const userId = this.state.auth._id;
     const postId = this.state.post._id;
 
-    uncomment(userId, postId, comment).then(data => {
+    uncomment(userId, postId, comment).then((data) => {
       this.setState({ comments: data.comments });
     });
   };
 
-  deleteConfirmed = comment => {
+  deleteConfirmed = (comment) => {
     let answer = window.confirm(
       "Are you sure you want to delete your comment?"
     );
@@ -183,7 +171,7 @@ class PostShow extends Component {
     }
   };
 
-  renderPost = post => {
+  renderPost = (post) => {
     const { auth, like, likes, save } = this.state;
     const s3Url = "https://s3-us-west-2.amazonaws.com/octoreco-bucket-1/";
 
@@ -230,7 +218,7 @@ class PostShow extends Component {
                   value={{
                     color: "#E1306C",
                     size: "1.5em",
-                    className: "global-class-name"
+                    className: "global-class-name",
                   }}
                 >
                   <FaHeart />
@@ -310,7 +298,7 @@ class PostShow extends Component {
             </InputGroup>
           </Form>
           <div style={{ marginTop: "12px" }}>
-            {this.state.comments.map(comment => {
+            {this.state.comments.map((comment) => {
               if (comment.postedBy == null) {
                 return (
                   <div
@@ -319,7 +307,7 @@ class PostShow extends Component {
                       fontSize: "12px",
                       paddingBottom: "12px",
                       borderBottom: "1px solid #d9dde2",
-                      marginBottom: "1rem"
+                      marginBottom: "1rem",
                     }}
                   >
                     <i>
@@ -346,7 +334,7 @@ class PostShow extends Component {
                       fontSize: "12px",
                       paddingBottom: "12px",
                       borderBottom: "1px solid #d9dde2",
-                      marginBottom: "1rem"
+                      marginBottom: "1rem",
                     }}
                   >
                     <b>
@@ -420,10 +408,7 @@ class PostShow extends Component {
 function mapStateToProps(state) {
   return {
     post: state.posts.post,
-    auth: state.auth
+    auth: state.auth,
   };
 }
-export default connect(
-  mapStateToProps,
-  actions
-)(PostShow);
+export default connect(mapStateToProps, actions)(PostShow);
