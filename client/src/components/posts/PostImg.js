@@ -12,11 +12,34 @@ class PostImg extends Component {
     imagesPreviewUrls: [],
   };
 
+  handleImageChange = (e) => {
+    e.preventDefault();
+
+    let files = Array.from(e.target.files);
+    const typeOK = this.checkMimeType(e);
+    const filesizeOK = this.checkFileSize(e);
+    e.target.value = null;
+
+    if (this.state.files.length < 4 && filesizeOK === true && typeOK === true) {
+      files.forEach((file) => {
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          this.setState({
+            files: [...this.state.files, file],
+            imagesPreviewUrls: [...this.state.imagesPreviewUrls, reader.result],
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  // Call submitPost action
   handleSubmit = (e) => {
     e.preventDefault();
+    // redux from: postform
     const { submitPost, formValues } = this.props;
-    const history = createBrowserHistory({ forceRefresh: true });
-    submitPost(formValues.values, this.state.files, history);
+    submitPost(formValues.values, this.state.files);
   };
 
   handleRemove = (id, i) => {
@@ -58,28 +81,6 @@ class PostImg extends Component {
       return false;
     }
     return true;
-  };
-
-  handleImageChange = (e) => {
-    e.preventDefault();
-
-    let files = Array.from(e.target.files);
-    const typeOK = this.checkMimeType(e);
-    const filesizeOK = this.checkFileSize(e);
-    e.target.value = null;
-
-    if (this.state.files.length < 3 && filesizeOK === true && typeOK === true) {
-      files.forEach((file) => {
-        let reader = new FileReader();
-        reader.onloadend = () => {
-          this.setState({
-            files: [...this.state.files, file],
-            imagesPreviewUrls: [...this.state.imagesPreviewUrls, reader.result],
-          });
-        };
-        reader.readAsDataURL(file);
-      });
-    }
   };
 
   render() {
@@ -143,7 +144,7 @@ class PostImg extends Component {
                   />
                 </label>
               </div>
-              <Image
+              <Images
                 delete={this.handleRemove}
                 imagesUrls={this.state.imagesPreviewUrls}
                 files={this.state.files}
@@ -156,7 +157,7 @@ class PostImg extends Component {
   }
 }
 
-class Image extends Component {
+class Images extends Component {
   delete = (id, i) => {
     this.props.delete(id, i);
   };
