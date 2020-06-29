@@ -53,7 +53,7 @@ const postDeleteOne = async (req, res) => {
     secretAccessKey: process.env.SECRET_ACCESS_KEY,
   });
 
-  //Check Auth User is the Poster, Id type are diffrent
+  //Check Auth User is the Poster
   if (loggedUserId == userId) {
     if (postid) {
       await Post.findOneAndRemove({ _id: postid }).exec(async (err, post) => {
@@ -78,6 +78,7 @@ const postDeleteOne = async (req, res) => {
                         Bucket: "octoreco-bucket-1",
                         Key: key,
                       };
+                      // Delete image on S3
                       await s3.deleteObject(params, (err, data) => {
                         if (err) console.log(err, err.stack);
                         else console.log(data);
