@@ -15,7 +15,7 @@
   "author": "Xiaoxuan Wang",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.412.0",
+    "aws-sdk": "^2.814.0",
     "body-parse": "^0.1.0",
     "concurrently": "^4.1.0",
     "cookie-session": "^2.0.0-beta.3",
